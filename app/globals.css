@@ -81,7 +81,7 @@
 @layer components {
     /* main */
     .main-container {
-        @apply flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-md:mx-10 border-0 border-red-400;
+        @apply flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-md:mx-10;
     }
 
     /* Head Text */

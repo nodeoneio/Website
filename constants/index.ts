@@ -1,4 +1,5 @@
-import { telegram, x, github, medium, youtube } from '@/public/assets/icons'
+import { telegram, x, github, medium, youtube } from '@/public/assets/icons';
+import { eoslogo, fiologo, xprlogo, librelogo } from '@/public/assets/images';
 
 export const topNavLinks = [
     {
@@ -57,7 +58,10 @@ export const footerLinks = [
     {
         title: 'Useful Links',
         links: [
-            { name: 'NodeONE Developers Document', link: 'https://devdocs.nodeone.network' },
+            {
+                name: 'NodeONE Developers Document',
+                link: 'https://devdocs.nodeone.network',
+            },
             { name: 'EOS Network Foundation', link: 'https://eosnetwork.com/' },
             { name: 'Antelope Protocol', link: 'https://antelope.io/' },
             { name: 'XPR Network', link: 'https://xprnetwork.org' },
@@ -80,22 +84,44 @@ export const footerLinks = [
         title: 'Get in touch',
         links: [
             { name: 'info@nodeone.io', link: 'mailto:info@nodeone.io' },
-            { name: 'NodeONE(EOSVerse) Telegram', link: 'https://t.me/eosverse' },
+            {
+                name: 'NodeONE(EOSVerse) Telegram',
+                link: 'https://t.me/eosverse',
+            },
         ],
     },
 ];
 
 export const socialMedia = [
-    { icon: telegram, alt: 'Telegram logo', src:'https://t.me/eosverse' },
-    { icon: x, alt: 'X(Twitter) logo', src:'https://twitter.com/nodeoneio' },
-    { icon: medium, alt: 'Medium logo',src:'https://medium.com/eos-nodeone' },
-    { icon: github, alt: 'Github logo', src:'https://github.com/Nodeoneio' },
-    { icon: youtube, alt: 'Youtube logo', src:'https://www.youtube.com/@eosnodeone7165' },
+    { icon: telegram, alt: 'Telegram logo', src: 'https://t.me/eosverse' },
+    { icon: x, alt: 'X(Twitter) logo', src: 'https://twitter.com/nodeoneio' },
+    { icon: medium, alt: 'Medium logo', src: 'https://medium.com/eos-nodeone' },
+    { icon: github, alt: 'Github logo', src: 'https://github.com/Nodeoneio' },
+    {
+        icon: youtube,
+        alt: 'Youtube logo',
+        src: 'https://www.youtube.com/@eosnodeone7165',
+    },
 ];
 
 export const chains = [
-    {img:"EOS", title: "EOS", description:"", link:"https://eosnetwork.com/"},
-    {img:"XPR Network", title: "XPR Network", description:"", link:"https://xprnetwork.org"},
-    {img:"Libre", title: "Libre", description:"", link:"https://www.libre.org"},
-    {img:"FIO", title: "FIO", description:"", link:"https://fio.net"},
-]
+    {
+        img: eoslogo,
+        title: 'EOS',
+        description: 'EOS is a Blockchain network that ...',
+        link: 'https://eosnetwork.com/',
+    },
+    {
+        img: xprlogo,
+        title: 'XPR Network',
+        description: 'XPR Network is a Blockchain network that ...',
+        link: 'https://xprnetwork.org',
+    },
+    {
+        img: librelogo,
+        title: 'Libre',
+        description: 'Libre is a Blockchain network that ...',
+        link: 'https://www.libre.org',
+    },
+    { img: fiologo, title: 'FIO', description: 'FIO is a Blockchain network that ...', link: 'https://fio.net' },
+];

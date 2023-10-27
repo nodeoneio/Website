@@ -32,11 +32,11 @@ const Footer = () => {
                         Copyright, All rights reserved.{' '}
                     </p>
 
-                    <p className="mt-6 text-base leading-7 font-montserrat text-white sm:max-w-sm">
+                    <p className="mt-5 text-base leading-7 font-montserrat text-white sm:max-w-sm">
                         We’re a leading Antelope Protovol based block chain
                         validator startup from Seoul, South Korea.
                     </p>
-                    <div className="flex items-center gap-5 mt-8">
+                    <div className="flex items-center gap-5 mt-6">
                         {socialMedia.map((icon: any) => (
                             <div
                                 key={icon.alt}
@@ -82,18 +82,6 @@ const Footer = () => {
                     ))}
                 </div>
             </div>
-            {/* <div className="flex justify-between text-white items-end mt-44 max-sm:flex-col max-sm:items-center">
-                <div className="flex flex-1 items-center justify-start gap-2 font-montserrat cursor-pointer">
-                    <Image
-                        src={copyrightSign}
-                        alt="copyright"
-                        width={20}
-                        height={20}
-                        className="rounded-full m-0"
-                    />
-                    <p> Copyright. All rights reserved by 2023 NodeONE.</p>
-                </div>
-            </div> */}
         </footer>
     );
 };
