@@ -7,8 +7,8 @@ import Link from 'next/link';
 const Footer = () => {
     return (
         <footer className="footer">
-            <div className="flex justify-between items-start gap-20 flex-wrap max-lg:flex-col">
-                <div className="flex flex-col items-start">
+            <div className="w-full flex justify-between items-start gap-20 flex-wrap max-lg:flex-col">
+                <div className="w-2/5 flex flex-col items-start">
                     <Link href="/">
                         <Image
                             src={nodeone_logo}
@@ -33,7 +33,7 @@ const Footer = () => {
                     </p>
 
                     <p className="mt-5 text-base leading-7 font-montserrat text-white sm:max-w-sm">
-                        We’re a leading Antelope Protovol based block chain
+                        We’re a leading Antelope Protocol based block chain
                         validator startup from Seoul, South Korea.
                     </p>
                     <div className="flex items-center gap-5 mt-6">
@@ -57,10 +57,10 @@ const Footer = () => {
                         ))}
                     </div>
                 </div>
-                <div className="flex flex-1 justify-between lg:gap-10 gap-20 flex-wrap ">
+                <div className="w-3/5 flex flex-1 justify-between lg:gap-10 gap-20 flex-wrap ">
                     {footerLinks.map((section: any) => (
                         <div key={section}>
-                            <h4 className="text-white font-montserrat text-2xl leading-normal mb-6 font-bold">
+                            <h4 className="text-white font-montserrat text-heading3-bold leading-normal mb-6 font-bold">
                                 {section.title}
                             </h4>
                             <ul>

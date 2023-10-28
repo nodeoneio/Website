@@ -135,7 +135,7 @@
     }
 
     .topbar {
-        @apply /* fixed */ top-10 z-30 flex w-full items-center justify-between bg-slate-900 pb-4 pt-7 px-1;
+        @apply /* fixed */ top-10 z-30 flex w-full items-center justify-between bg-slate-900 pb-4 pt-5 px-1;
     }
 
     .footer {

@@ -20,7 +20,7 @@ const ChainCard = ({ image, title, description, link }: ChainCardTypeProps) => {
     return (
         <Card className="w-[350px] shadow-xl border-secondary-500 bg-white">
             <div className="flex flex-col h-4/5">
-                <CardHeader>
+                <CardHeader className="flex items-center">
                     <Image
                         src={image}
                         alt={title}
@@ -29,10 +29,10 @@ const ChainCard = ({ image, title, description, link }: ChainCardTypeProps) => {
                     />
                 </CardHeader>
                 <CardContent>
-                    <CardTitle className="text-heading2-semibold">
+                    <CardTitle className="text-heading2-semibold text-center">
                         {title}
                     </CardTitle>
-                    <CardDescription className="mt-3">
+                    <CardDescription className="mt-3 text-center block">
                         {description}
                     </CardDescription>
                 </CardContent>
