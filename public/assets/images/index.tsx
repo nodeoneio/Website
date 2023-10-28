@@ -5,6 +5,8 @@ import fiologo from './fio-logo.webp';
 import librelogo from './libre-logo.svg';
 import xprlogo from './xprnetwork-logo.png';
 import bg_hexa from './bg-hexa-tile.jpeg';
+import bg_devdocs from './bg-devdocs.jpeg';
+import img_govern from './governance-img.jpeg';
 
 export {
     nodeone_hero,
@@ -14,4 +16,6 @@ export {
     librelogo,
     xprlogo,
     bg_hexa,
+    bg_devdocs,
+    img_govern,
 };
