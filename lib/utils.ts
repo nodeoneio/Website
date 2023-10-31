@@ -13,7 +13,7 @@ export function getSessionKit(): SessionKit | undefined {
         const webRenderer = new WebRenderer();
         const sessionKit = new SessionKit({
             appName: 'NodeONE Website',
-            chains: [Chains.Jungle4, Chains.EOS, Chains.FIO, Chains.Libre, Chains.Proton, Chains.Telos],
+            chains: [Chains.Jungle4, Chains.EOS, Chains.FIO, Chains.Libre, Chains.Proton, Chains.Telos, Chains.WAX],
             ui: webRenderer,
             walletPlugins: [new WalletPluginAnchor()],
         });
