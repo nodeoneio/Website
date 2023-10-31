@@ -34,7 +34,7 @@ const ContrbutionCard = () => {
                         </div>
                     </CardTitle>
                     <CardDescription className="font-palanquin max-sm:mt-10 mt-20 text-heading3-bold max-sm:px-5 px-8 font-semibold text-center block">
-                        NodeONE is contributing to a society that promotes sound
+                        NodeONE is dreaming a society that promotes sound
                         democracy and governance by utilizing blockchain
                         technology.
                     </CardDescription>
