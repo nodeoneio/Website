@@ -21,7 +21,7 @@ const AuthContext = React.createContext<AuthContextType>({
     onLogin: () => {},
 });
 
-let sessionKit: SessionKit;
+let sessionKit: SessionKit | undefined;
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const [session, setSession]: [
@@ -30,20 +30,28 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     ] = useState();
 
     useEffect(() => {
-        if (!sessionKit) {
-            sessionKit = getSessionKit();
+        try {
+            if (!sessionKit) {
+                sessionKit = getSessionKit();
+            }
+            if (sessionKit)
+                sessionKit.restore().then((restored) => setSession(restored));
+        } catch (error: any) {
+            console.log(`Modal manually Closed ${error.message}`);
+            return;
         }
-        sessionKit.restore().then((restored) => setSession(restored));
     }, []);
 
     const logoutHandler = () => {
-        sessionKit.logout(session);
+        if (sessionKit) sessionKit.logout(session);
         setSession(undefined);
     };
 
     const loginHandler = async () => {
-        const response = await sessionKit.login();
-        setSession(response.session);
+        if (sessionKit) {
+            const response = await sessionKit.login();
+            if (response) setSession(response.session);
+        }
     };
 
     return (

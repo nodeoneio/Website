@@ -7,7 +7,7 @@ const Authentication = () => {
     const auth = useContext(AuthContext);
 
     return (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 max-sm:hidden">
             {auth.session?.actor ? (
                 <Button
                     type="submit"

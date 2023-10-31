@@ -81,7 +81,7 @@
 @layer components {
     /* main */
     .main-container {
-        @apply flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-md:mx-10;
+        @apply relative flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-md:mx-0;
     }
 
     /* Head Text */
@@ -135,11 +135,11 @@
     }
 
     .topbar {
-        @apply /* fixed */ top-10 z-30 flex w-full items-center justify-between bg-slate-900 pb-4 pt-5 px-1;
+        @apply fixed z-30 flex flex-col w-full items-end justify-center bg-slate-900 px-32 py-3 max-sm:px-5;
     }
 
     .footer {
-        @apply bottom-9 z-30 flex w-full items-center justify-between bg-slate-900 px-1 py-10;
+        @apply bottom-9 z-30 flex w-full items-center justify-between bg-slate-900 px-32 py-10 max-sm:px-5 max-md:mb-14;
     }
 
     .bottombar {
@@ -169,4 +169,12 @@
     .rightsidebar {
         @apply sticky right-0 top-0 z-20 flex h-screen w-fit flex-col justify-between gap-12 overflow-auto border-l border-l-dark-4 bg-dark-2 px-10 pb-6 pt-44 max-xl:hidden;
     }
+
+}
+
+.background-repeat {
+    background-image: url('/assets/images/bg-hexa-tile.jpeg');
+    background-repeat: repeat;
+    /* background-size: 1920px 1024px;  */
+    background-size: cover;
 }

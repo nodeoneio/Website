@@ -7,8 +7,8 @@ import Link from 'next/link';
 const Footer = () => {
     return (
         <footer className="footer">
-            <div className="w-full flex justify-between items-start gap-20 flex-wrap max-lg:flex-col">
-                <div className="w-2/5 flex flex-col items-start">
+            <div className="w-full flex gap-20 flex-wrap max-lg:flex-col">
+                <div className="w-2/5 max-sm:w-full flex flex-col justify-center items-start max-sm:items-stretch">
                     <Link href="/">
                         <Image
                             src={nodeone_logo}
@@ -18,10 +18,10 @@ const Footer = () => {
                         />
                     </Link>
 
-                    <p className="mt-2 text-base-semibold leading-7 font-montserrat text-white sm:max-w-sm flex">
+                    <p className="mt-2 text-body-bold leading-7 font-montserrat text-white max-sm:max-w-sm flex max-sm:whitespace-nowrap">
                         NodeONE 2023.
                     </p>
-                    <p className="mt-1 text-base-semibold leading-7 font-montserrat text-white sm:max-w-sm flex gap-2">
+                    <p className="mt-1 text-base-semibold leading-7 font-montserrat text-white max-sm:max-w-sm max-sm:whitespace-nowrap flex gap-2">
                         <Image
                             src={copyrightSign}
                             alt="copyright"
@@ -29,14 +29,14 @@ const Footer = () => {
                             height={20}
                             className="rounded-full m-0"
                         />
-                        Copyright, All rights reserved.{' '}
+                        Copyright, All rights reserved.
                     </p>
 
                     <p className="mt-5 text-base leading-7 font-montserrat text-white sm:max-w-sm">
                         We’re a leading Antelope Protocol based block chain
                         validator startup from Seoul, South Korea.
                     </p>
-                    <div className="flex items-center gap-5 mt-6">
+                    <div className="flex flex-row justify-between gap-5 mt-6">
                         {socialMedia.map((icon: any) => (
                             <div
                                 key={icon.alt}
@@ -57,9 +57,9 @@ const Footer = () => {
                         ))}
                     </div>
                 </div>
-                <div className="w-3/5 flex flex-1 justify-between lg:gap-10 gap-20 flex-wrap ">
+                <div className="w-3/5 max-sm:w-full flex flex-1 justify-between lg:gap-10 gap-20 flex-wrap ">
                     {footerLinks.map((section: any) => (
-                        <div key={section}>
+                        <div key={section.title}>
                             <h4 className="text-white font-montserrat text-heading3-bold leading-normal mb-6 font-bold">
                                 {section.title}
                             </h4>

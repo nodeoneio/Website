@@ -7,7 +7,7 @@ import Image from 'next/image';
 const Page = () => {
     const pathName = usePathname();
     return (
-        <div className="flex w-full flex-1 flex-row gap-1 px-6 justify-end">
+        <div className="flex w-full flex-1 flex-row gap-1 px-6 justify-end max-sm:hidden">
             {topNavLinks.map((link) => {
                 const isActive =
                     (pathName.includes(link.route) && link.route.length > 1) ||

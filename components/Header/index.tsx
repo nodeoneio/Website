@@ -1,38 +1,38 @@
-import Link from 'next/link';
-import Image from 'next/image';
+'use client';
 import Authentication from '@/components/Authentication';
 import NavMenu from '@/components/NavMenu';
-import NewsHeadlineCard from '@/components/NewsHeadline'
-import { nodeone_logo } from '@/public/assets/icons';
+import NewsHeadlineCard from '@/components/NewsHeadline';
+
+import MenuButton from '../MenuButton';
+import { useState, useEffect } from 'react';
+
+import TopLogoCard from '../TopLogoCard';
+import MobileMenu from '../sections/MobileMenu';
 
 const Header = () => {
+    const [showMenu, setShowMenu] = useState(false);
+    
+    const toggleShowMenu = () => {
+        setShowMenu(!showMenu);
+    };
+
+    useEffect(() => {
+        setShowMenu(false);
+    }, []);
+
     return (
-        <div className='flex flex-col flex-1 w-full'>
+        <>
             {/* TODO: <NewsHeadlineCard /> */}
             <nav className="topbar">
-                <Link
-                    href="/"
-                    className="flex items-center gap-4"
-                >
-                    <Image
-                        src={nodeone_logo}
-                        alt="logo"
-                        width={70}
-                        height={70}
-                    />
-                    <div className="flex flex-col max-xs:hidden ml-1">
-                        <p className="text-heading2-bold text-white font-montserrat">
-                            NodeONE
-                        </p>
-                        <p className="text-heading5-bold text-white font-montserrat">
-                            We are All One, or None
-                        </p>
-                    </div>
-                </Link>
-                <NavMenu />
-                <Authentication />
+                <div className="flex flex-row w-full justify-between items-center">
+                    <TopLogoCard />
+                    <NavMenu />
+                    <Authentication />
+                    <MenuButton toggleMenu={toggleShowMenu} />
+                </div>
             </nav>
-        </div>
+            <MobileMenu showMenu={showMenu} menuToggle={toggleShowMenu}/>
+        </>
     );
 };
 

@@ -5,6 +5,10 @@ import github from './github.svg'
 import telegram from './telegram.svg'
 import youtube from './youtube.svg'
 import nodeone_logo from './nodeone_logo.svg'
+import menu from './menu.svg'
+import eosverse from './eosverse_logo_w.svg'
+import user from './user.svg'
+import logout from './logout.svg'
 
 export {
     copyrightSign,
@@ -14,4 +18,8 @@ export {
     github,
     youtube,
     nodeone_logo,
+    menu,
+    eosverse,
+    user,
+    logout,
 }

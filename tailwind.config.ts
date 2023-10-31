@@ -172,9 +172,6 @@ module.exports = {
       ],
     },
     extend: {
-      // backgroundImage: {
-      //   'block-pattern': "url('/public/assets/images/bg-hexa-tile.jpeg')",
-      // },
       fontFamily: {
         palanquin: ['Palanquin', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],

@@ -1,4 +1,4 @@
-import { telegram, x, github, medium, youtube } from '@/public/assets/icons';
+import { telegram, x, github, medium, youtube, eosverse } from '@/public/assets/icons';
 import { eoslogo, fiologo, xprlogo, librelogo } from '@/public/assets/images';
 
 export const topNavLinks = [
@@ -18,9 +18,9 @@ export const topNavLinks = [
         label: 'Community',
     },
     {
-        imgURL: '/assets/icons/community.svg',
+        imgURL: eosverse,
         route: 'https://eosverse.io',
-        label: 'EOSverse',
+        label: 'EOSVerse',
     },
 ];
 

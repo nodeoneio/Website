@@ -8,12 +8,18 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function getSessionKit(): SessionKit {
-    const sessionKit = new SessionKit({
-        appName: 'NodeONE',
-        chains: [Chains.Jungle4],
-        ui: new WebRenderer(),
-        walletPlugins: [new WalletPluginAnchor()],
-    });
-    return sessionKit;
+export function getSessionKit(): SessionKit | undefined {
+    try {
+        const webRenderer = new WebRenderer();
+        const sessionKit = new SessionKit({
+            appName: 'NodeONE Website',
+            chains: [Chains.Jungle4, Chains.EOS, Chains.FIO, Chains.Libre, Chains.Proton, Chains.Telos],
+            ui: webRenderer,
+            walletPlugins: [new WalletPluginAnchor()],
+        });
+        return sessionKit;
+    } catch (error:any) {
+        console.log(`Modal manually Closed ${error.message}`);
+        return;
+    }
 }

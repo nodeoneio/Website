@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 type ChainCardTypeProps = {
     image: string;
@@ -18,7 +19,7 @@ type ChainCardTypeProps = {
 };
 const ChainCard = ({ image, title, description, link }: ChainCardTypeProps) => {
     return (
-        <Card className="w-[350px] shadow-xl border-secondary-500 bg-white">
+        <Card className="max-w-xs shadow-xl border-secondary-500 bg-white">
             <div className="flex flex-col h-4/5">
                 <CardHeader className="flex items-center">
                     <Image
@@ -38,12 +39,17 @@ const ChainCard = ({ image, title, description, link }: ChainCardTypeProps) => {
                 </CardContent>
             </div>
             <CardFooter className="relative w-full justify-center">
-                <Button
-                    variant="outline"
-                    className="bg-primary-500 text-white "
+                <Link
+                    href={link}
+                    target="_blank"
                 >
-                    More about {title}
-                </Button>
+                    <Button
+                        variant="outline"
+                        className="bg-primary-500 text-white text-center "
+                    >
+                        More about {title}
+                    </Button>
+                </Link>
             </CardFooter>
         </Card>
     );
