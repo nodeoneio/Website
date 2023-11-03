@@ -4,6 +4,16 @@ const nextConfig = {
         serverActions: true,
         serverComponentsExternalPackages: ['mongoose'],
     },
+
+    async rewrites() {
+        return [
+          {
+            source: '/jungle/:path*',
+            destination: `https://api-jungle4.nodeone.network:8344/:path*`,
+          },
+        ];
+      },
+
     images: {
         remotePatterns: [
             {

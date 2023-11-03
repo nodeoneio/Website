@@ -3,6 +3,7 @@ import { topNavLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Badge } from '../ui/badge';
 
 const Page = () => {
     const pathName = usePathname();
@@ -30,6 +31,14 @@ const Page = () => {
                         <p className="text-light-1 max-lg:hidden">
                             {link.label}
                         </p>
+                        {link.badge && (
+                            <Badge
+                                variant="outline"
+                                className="bg-slate-400 text-subtle-medium"
+                            >
+                                {link.badge}
+                            </Badge>
+                        )}
                     </Link>
                 );
             })}

@@ -1,4 +1,11 @@
-import { telegram, x, github, medium, youtube, eosverse } from '@/public/assets/icons';
+import {
+    telegram,
+    x,
+    github,
+    medium,
+    youtube,
+    eosverse,
+} from '@/public/assets/icons';
 import { eoslogo, fiologo, xprlogo, librelogo } from '@/public/assets/images';
 
 export const topNavLinks = [
@@ -11,11 +18,13 @@ export const topNavLinks = [
         imgURL: '/assets/icons/create.svg',
         route: '/blockexplorer',
         label: 'Block Explorer',
+        badge: 'SOON',
     },
     {
         imgURL: '/assets/icons/community.svg',
         route: '/community',
         label: 'Community',
+        badge: 'TBD',
     },
     {
         imgURL: eosverse,
@@ -123,5 +132,10 @@ export const chains = [
         description: 'Libre is a Blockchain network that ...',
         link: 'https://www.libre.org',
     },
-    { img: fiologo, title: 'FIO', description: 'FIO is a Blockchain network that ...', link: 'https://fio.net' },
+    {
+        img: fiologo,
+        title: 'FIO',
+        description: 'FIO is a Blockchain network that ...',
+        link: 'https://fio.net',
+    },
 ];

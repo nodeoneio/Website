@@ -3,7 +3,6 @@ import { user, logout } from '@/public/assets/icons';
 import Image from 'next/image';
 import AuthContext from '@/context/auth-context';
 import { useContext } from 'react';
-import { Logo } from '@wharfkit/session';
 
 const MobileMenu = ({
     showMenu,
@@ -14,7 +13,7 @@ const MobileMenu = ({
 }) => {
     const auth = useContext(AuthContext);
     let chainLogo = auth.session?.chain.getLogo();
-
+   
     return (
         <div
             className={
@@ -30,7 +29,7 @@ const MobileMenu = ({
 
             <div
                 className={
-                    'fixed flex flex-col text-body-bold text-white w-[70%] px-5 py-10 h-screen z-50 bg-glassmorphism backdrop-blur-lg gap-5 rounded-2xl border-1 border-secondary-500'
+                    'fixed flex flex-col text-body-bold text-white w-[70%] px-5 py-[15%] h-screen z-50 bg-glassmorphism backdrop-blur-lg gap-5 rounded-2xl border-1 border-secondary-500'
                 }
             >
                 <p className="text-heading2-semibold text-white">SideBar</p>
