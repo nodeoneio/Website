@@ -15,9 +15,18 @@ import AuthContext from '@/context/auth-context';
 import SelectChain from '@/components/SelectChain';
 import ProducerTable from '@/components/ProducerTable.tsx';
 
+type ProducerInfoType = {
+    name: string;
+    total_votes: number;
+    producer_key: string;
+    is_active: boolean;
+    url: string;
+    location: number;
+};
+
 const page = () => {
     const [info, setInfo] = useState<OnChainInfoTypeProps[]>();
-    const [producers, setProducers] = useState<OnChainInfoTypeProps[]>();
+    const [producers, setProducers] = useState<ProducerInfoType[]>();
     const ctx = useContext(AuthContext);
 
     const fetchProducers = async () => {
@@ -39,6 +48,22 @@ const page = () => {
         //         'proposed: ' + (res.proposed ? res.proposed.producers : 'empty')
         //     );
         // }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                limit: '21',
+                lower_bound: 'lioninjungle',
+                json: true,
+            }),
+        };
+        // const response = await fetch(
+        //     'https://reqres.in/api/posts',
+        //     requestOptions
+        // );
+        // const data = await response
+        //     .json()
+        //     .then((data) => setProducers(data.id));
     };
     const fetchCurrentBlock = async () => {
         // TODO: session kit 이 BlockExplorer 의 모든 기능을 구현하기엔 미비한 부분이 있어서 일단 버전업/기능확충 대기.
@@ -97,12 +122,12 @@ const page = () => {
     }, []);
 
     return (
-        <div className="flex flex-col w-full h-screen pt-32 bg-secondary-500 items-start text-white text-body-bold">
+        <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
             <div className="flex flex-row w-full justify-between items-end text-left gap-5">
                 <h1 className="text-heading1-bold font-montserrat text-white sm:text-4.5xl">
                     Blockchain Explorer
                 </h1>
-                <div className='flex flex-row gap-2 items-center'>
+                <div className="flex flex-row gap-2 items-center">
                     <p className="text-white text-body-medium font-palanquin">
                         Powered by{' '}
                         <span className="text-body-bold">NodeONE</span>
@@ -132,7 +157,7 @@ const page = () => {
                 </Button>
             </div>
             <div className="w-full h-[3px] my-5 bg-slate-500 rounded-lg" />
-            <div className="flex flex-row w-full gap-3 justify-between text-body-bold">
+            <div className="flex flex-row flex-wrap w-full gap-3 justify-between text-body-bold">
                 {info?.map((i) => (
                     <OnChainInfoCard
                         key={i.title}
@@ -142,7 +167,7 @@ const page = () => {
                 ))}
             </div>
             <div className="w-full h-[3px] mt-6 mb-3 bg-slate-500 rounded-lg" />
-            <div className="w-full">
+            <div className="w-full h-full">
                 <ProducerTable />
             </div>
         </div>

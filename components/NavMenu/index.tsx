@@ -8,7 +8,7 @@ import { Badge } from '../ui/badge';
 const Page = () => {
     const pathName = usePathname();
     return (
-        <div className="flex w-full flex-1 flex-row gap-1 px-6 justify-end max-sm:hidden">
+        <div className="flex w-full flex-1 flex-row gap-1 px-6 justify-end max-lg:hidden">
             {topNavLinks.map((link) => {
                 const isActive =
                     (pathName.includes(link.route) && link.route.length > 1) ||
@@ -28,13 +28,13 @@ const Page = () => {
                             width={24}
                             height={24}
                         />
-                        <p className="text-light-1 max-lg:hidden">
+                        <p className="text-light-1 max-xl:hidden">
                             {link.label}
                         </p>
                         {link.badge && (
                             <Badge
                                 variant="outline"
-                                className="bg-slate-400 text-subtle-medium"
+                                className="bg-slate-400 text-subtle-medium max-xl:hidden"
                             >
                                 {link.badge}
                             </Badge>

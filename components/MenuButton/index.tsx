@@ -4,7 +4,7 @@ import { menu } from '@/public/assets/icons';
 const MenuButton = ({ toggleMenu }: { toggleMenu: () => void }) => {
     return (
         <div
-            className="flex flex-col items-center sm:hidden cursor-pointer"
+            className="flex flex-col items-center md:hidden cursor-pointer"
             onClick={toggleMenu}
         >
             <Image

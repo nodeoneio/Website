@@ -7,7 +7,7 @@ const chains = () => {
             <p className="relative font-montserrat text-heading1-bold max-sm:text-heading3-bold max-sm:mx-3 max-sm:my-3 my-20 text-secondary-500 text-center">
                 The Blockchain networks we get engaged.
             </p>
-            <div className="relative w-full gap-10 flex flex-row max-md:flex-col my-20 px-8 py-4 justify-between items-center">
+            <div className="relative w-full gap-10 flex flex-row flex-wrap max-md:flex-col my-20 px-8 py-4 justify-between items-center">
                 {n1_chains.map((chain) => (
                     <ChainCard
                         key={chain.title}

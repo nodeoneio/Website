@@ -81,7 +81,7 @@
 @layer components {
     /* main */
     .main-container {
-        @apply relative flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-md:mx-0;
+        @apply relative flex min-h-screen flex-1 flex-col items-center bg-white mx-32 max-lg:mx-10;
     }
 
     /* Head Text */
@@ -135,15 +135,15 @@
     }
 
     .topbar {
-        @apply fixed z-30 flex flex-col w-full items-end justify-center bg-slate-900 px-32 py-3 max-sm:px-5;
+        @apply fixed z-30 flex flex-col w-full items-end justify-center bg-slate-900 px-32 py-3 max-lg:px-10;
     }
 
     .footer {
-        @apply bottom-9 z-30 flex w-full items-center justify-between bg-slate-900 px-32 py-10 max-sm:px-5 max-md:mb-14;
+        @apply bottom-9 z-30 flex w-full items-center justify-between bg-slate-900 px-32 py-10 max-lg:px-10 max-md:mb-14;
     }
 
     .bottombar {
-        @apply fixed bottom-0 z-10 w-full rounded-t-3xl bg-glassmorphism p-4 backdrop-blur-lg xs:px-7 md:hidden;
+        @apply fixed bottom-0 z-10 w-full rounded-t-3xl bg-glassmorphism p-4 backdrop-blur-lg xs:px-7 lg:hidden;
     }
 
     .bottombar_container {
