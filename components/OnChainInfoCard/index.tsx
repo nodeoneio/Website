@@ -11,9 +11,9 @@ export type OnChainInfoTypeProps = {
 };
 const OnChainInfoCard = ({ title, data }: OnChainInfoTypeProps) => {
     return (
-        <Card className="max-w-xs shadow-xl border-secondary-500 bg-white">
-            <CardContent className="flex flex-col justify-between pt-4">
-                <CardTitle className="text-heading1-bold font-montserrat text-center text-secondary-500">
+        <Card className="flex flex-1 items-center justify-center max-w-xs shadow-xl border-secondary-500 bg-white pt-5">
+            <CardContent className="flex flex-col justify-between  text-secondary-500 ">
+                <CardTitle className="font-montserrat text-center">
                     {title}
                 </CardTitle>
                 <CardDescription className="mt-3 text-center font-palanquin block text-secondary-500">

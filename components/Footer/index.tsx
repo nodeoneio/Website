@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="w-full flex gap-20 flex-wrap max-lg:flex-col">
-                <div className="w-2/5 max-sm:w-full flex flex-col justify-center items-start max-sm:items-stretch">
+                <div className="w-2/5 max-sm:w-full flex flex-col justify-start items-start max-sm:items-stretch">
                     <Link href="/">
                         <Image
                             src={nodeone_logo}
