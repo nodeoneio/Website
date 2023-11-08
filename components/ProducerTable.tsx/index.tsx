@@ -39,60 +39,26 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import Image from 'next/image';
 
-const data: Producer[] = [
-    {
-        id: 'm5gr84i9',
-        rank: 1,
-        name: 'eosjapan',
-        status: 'Top21',
-        location: 'Japan, Osaka',
-        amount: 10200,
-    },
-    {
-        id: '3u1reuv4',
-        rank: 2,
-        name: 'librekorea',
-        status: 'Top21',
-        location: 'Korea, Jeju',
-        amount: 23600,
-    },
-    {
-        id: 'derv1ws0',
-        rank: 3,
-        name: 'telosuk',
-        status: 'Top21',
-        location: 'UK, Edinburgh',
-        amount: 2020,
-    },
-    {
-        id: '5kma53ae',
-        rank: 4,
-        name: 'librechina',
-        status: 'Standby',
-        location: 'China, Chengdu',
-        amount: 11000,
-    },
-    {
-        id: 'bhqecj4p',
-        rank: 5,
-        name: 'xpritaly',
-        status: 'Unpaid',
-        location: 'Italy, Naples',
-        amount: 400,
-    },
-];
-
-export type Producer = {
-    id: string;
+export type ProducerType = {
+    _id: string;
+    owner: string;
     rank: number;
-    name: string;
-    status: 'Top21' | 'Standby' | 'Unpaid';
-    location: string;
-    amount: number;
+    total_votes: string;
+    producer_key: string;
+    is_active: number;
+    url: string;
+    unpaid_blocks: number;
+    last_claim_time: string;
+    location_code: number;
+    candidate_name?: string;
+    logo_svg?: string;
+    location?: string;
+    country?: string;
 };
 
-export const columns: ColumnDef<Producer>[] = [
+export const columns: ColumnDef<ProducerType>[] = [
     {
         id: 'select',
         header: ({ table }) => (
@@ -134,7 +100,25 @@ export const columns: ColumnDef<Producer>[] = [
         ),
     },
     {
-        accessorKey: 'name',
+        accessorKey: 'logo_svg',
+        header: 'Logo',
+        cell: ({ row }) => (
+            <div className="flex h-[24px] w-[48px] rounded-lg bg-white items-center justify-center">
+                {row.getValue('logo_svg') ? (
+                    <Image
+                        src={row.getValue('logo_svg')}
+                        alt="logo"
+                        width={24}
+                        height={24}
+                    />
+                ) : (
+                    <p>no</p>
+                )}
+            </div>
+        ),
+    },
+    {
+        accessorKey: 'candidate_name',
         header: ({ column }) => {
             return (
                 <Button
@@ -149,14 +133,14 @@ export const columns: ColumnDef<Producer>[] = [
             );
         },
         cell: ({ row }) => (
-            <div className="lowercase">{row.getValue('name')}</div>
+            <div className="lowercase">{row.getValue('candidate_name')}</div>
         ),
     },
     {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'country',
+        header: 'Country',
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue('status')}</div>
+            <div className="capitalize">{row.getValue('country')}</div>
         ),
     },
     {
@@ -167,16 +151,16 @@ export const columns: ColumnDef<Producer>[] = [
         ),
     },
     {
-        accessorKey: 'amount',
-        header: () => <div className="text-right">Amount</div>,
+        accessorKey: 'total_votes',
+        header: () => <div className="text-right">Total Votes</div>,
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue('amount'));
+            const total_votes = parseFloat(row.getValue('total_votes'));
 
             // Format the amount as a dollar amount
             const formatted = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
-            }).format(amount);
+            }).format(total_votes);
 
             return <div className="text-right font-medium">{formatted}</div>;
         },
@@ -202,7 +186,7 @@ export const columns: ColumnDef<Producer>[] = [
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                             onClick={() =>
-                                navigator.clipboard.writeText(payment.id)
+                                navigator.clipboard.writeText(payment._id)
                             }
                         >
                             Copy payment ID
@@ -219,7 +203,7 @@ export const columns: ColumnDef<Producer>[] = [
     },
 ];
 
-export default function ProducerTable() {
+export default function ProducerTable({ data }: { data: ProducerType[] }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -229,6 +213,7 @@ export default function ProducerTable() {
 
     const table = useReactTable({
         data,
+        //producers,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -252,18 +237,22 @@ export default function ProducerTable() {
                 <Input
                     placeholder="Filter Validator Name..."
                     value={
-                        (table.getColumn('name')?.getFilterValue() as string) ??
-                        ''
+                        (table
+                            .getColumn('candidate_name')
+                            ?.getFilterValue() as string) ?? ''
                     }
                     onChange={(event) =>
                         table
-                            .getColumn('name')
+                            .getColumn('candidate_name')
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm text-secondary-500"
                 />
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild className='bg-white text-secondary-500'> 
+                    <DropdownMenuTrigger
+                        asChild
+                        className="bg-white text-secondary-500"
+                    >
                         <Button
                             variant="outline"
                             className="ml-auto"
@@ -271,7 +260,10 @@ export default function ProducerTable() {
                             Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className='bg-white text-secondary-500'>
+                    <DropdownMenuContent
+                        align="end"
+                        className="bg-white text-secondary-500"
+                    >
                         {table
                             .getAllColumns()
                             .filter((column) => column.getCanHide())

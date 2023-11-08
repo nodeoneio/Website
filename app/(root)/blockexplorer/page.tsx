@@ -13,20 +13,11 @@ import Image from 'next/image';
 import { nodeone_logo } from '@/public/assets/icons';
 import AuthContext from '@/context/auth-context';
 import SelectChain from '@/components/SelectChain';
-import ProducerTable from '@/components/ProducerTable.tsx';
-
-type ProducerInfoType = {
-    name: string;
-    total_votes: number;
-    producer_key: string;
-    is_active: boolean;
-    url: string;
-    location: number;
-};
+import ProducerTable, { ProducerType } from '@/components/ProducerTable.tsx';
 
 const page = () => {
     const [info, setInfo] = useState<OnChainInfoTypeProps[]>();
-    const [producers, setProducers] = useState<ProducerInfoType[]>();
+    const [producers, setProducers] = useState<ProducerType[]>();
     const ctx = useContext(AuthContext);
 
     const fetchProducers = async () => {
@@ -48,22 +39,23 @@ const page = () => {
         //         'proposed: ' + (res.proposed ? res.proposed.producers : 'empty')
         //     );
         // }
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                limit: '21',
-                lower_bound: 'lioninjungle',
-                json: true,
-            }),
-        };
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         limit: '21',
+        //         lower_bound: 'lioninjungle',
+        //         json: true,
+        //     }),
+        // };
         // const response = await fetch(
-        //     'https://reqres.in/api/posts',
+        //     '/jungle/v1/chain/get_producers',
         //     requestOptions
         // );
-        // const data = await response
-        //     .json()
-        //     .then((data) => setProducers(data.id));
+
+        const response = await fetch('/api-n1/getproducers');
+        const data = await response.json();
+        setProducers(data.producers);
     };
     const fetchCurrentBlock = async () => {
         // TODO: session kit 이 BlockExplorer 의 모든 기능을 구현하기엔 미비한 부분이 있어서 일단 버전업/기능확충 대기.
@@ -112,7 +104,7 @@ const page = () => {
     };
 
     useEffect(() => {
-        //fetchProducers();
+        fetchProducers();
         fetchCurrentBlock();
         // const interval = setInterval(() => {
         //     fetchCurrentBlock();
@@ -168,7 +160,11 @@ const page = () => {
             </div>
             <div className="w-full h-[3px] mt-6 mb-3 bg-slate-500 rounded-lg" />
             <div className="w-full h-full">
-                <ProducerTable />
+                {producers ? (
+                    <ProducerTable data={producers} />
+                ) : (
+                    <p>no data</p>
+                )}
             </div>
         </div>
     );
