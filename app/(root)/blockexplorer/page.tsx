@@ -13,11 +13,15 @@ import AuthContext from '@/context/auth-context';
 
 import { chainIdsToIndices } from '@wharfkit/session';
 import Image from 'next/image';
+import path from 'path';
 
 const page = () => {
     const [liveInfo, setLiveInfo] = useState<OnChainInfoTypeProps[]>();
     const [producers, setProducers] = useState<ProducerType[]>();
     const [chainId, setChainId] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(30);
+    const [totalCount, setTotalCount] = useState(0);
 
     const ctx = useContext(AuthContext);
 
@@ -54,13 +58,15 @@ const page = () => {
         //     requestOptions
         // );
 
-        const response = await fetch('/api-n1/getproducers');
+        const pathStr = path.join(
+            '/api-n1/getproducers',
+            String(currentPage),
+            String(pageSize)
+        );
+        const response = await fetch(pathStr);
         const data = await response.json();
         setProducers(data.producers);
-    };
-
-    const setSelectedChainValue = (id: string) => {
-        setChainId(id);
+        setTotalCount(data.totalCount);
     };
 
     const fetchLiveBlock = async () => {
@@ -119,7 +125,7 @@ const page = () => {
         // }, 10000);
 
         //return () => clearInterval(interval);
-    }, [chainId]);
+    }, [chainId, currentPage, pageSize]);
 
     return (
         <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
@@ -143,8 +149,8 @@ const page = () => {
             </div>
 
             <div className="flex max-md:flex-col w-full mt-5 justify-start items-start gap-2">
-                <SelectChain setSelectedChain={setSelectedChainValue}/>
-                <div className='flex w-full gap-2'>
+                <SelectChain setSelectedChain={setChainId} />
+                <div className="flex w-full gap-2">
                     <Input
                         type="search"
                         placeholder="Search for the Accounts, Transactions or Blocks..."
@@ -164,6 +170,9 @@ const page = () => {
                 <BlockExplorerMain
                     liveInfo={liveInfo}
                     producers={producers}
+                    setCurrentPage={setCurrentPage}
+                    setPageSize={setPageSize}
+                    totalCount={totalCount}
                 />
             ) : (
                 <div className="w-full h-screen text-heading1-bold text-center">

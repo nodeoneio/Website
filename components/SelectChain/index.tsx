@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/popover';
 import { chainIdsToIndices } from '@wharfkit/session';
 
-const supported_chains = ['EOS', 'FIO', 'PROTON', 'JUNGLE4', 'LIBRE'];
+const supported_chains = ['EOS', 'JUNGLE4', 'FIO', 'PROTON', 'LIBRE'];
 
 const chains = Array.from(chainIdsToIndices, ([value, label]) => ({
     value: value.toString(),

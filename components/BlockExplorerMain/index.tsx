@@ -4,9 +4,15 @@ import ProducerTable, { ProducerType } from '../ProducerTable.tsx';
 const BlockExplorerMain = ({
     liveInfo,
     producers,
+    setCurrentPage,
+    setPageSize,
+    totalCount,
 }: {
     liveInfo: OnChainInfoTypeProps[] | undefined;
     producers: ProducerType[] | undefined;
+    setCurrentPage: (page: number) => void;
+    setPageSize: (page: number) => void;
+    totalCount: number;
 }) => {
     return (
         <>
@@ -22,7 +28,12 @@ const BlockExplorerMain = ({
             <div className="w-full h-[3px] mt-6 mb-3 bg-slate-500 rounded-lg" />
             <div className="w-full h-full">
                 {producers ? (
-                    <ProducerTable data={producers} />
+                    <ProducerTable
+                        data={producers}
+                        setCurrentPage={setCurrentPage}
+                        setPageSize={setPageSize}
+                        totalCount={totalCount}
+                    />
                 ) : (
                     <p className="w-full text-center">No Data</p>
                 )}

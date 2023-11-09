@@ -203,7 +203,17 @@ export const columns: ColumnDef<ProducerType>[] = [
     },
 ];
 
-export default function ProducerTable({ data }: { data: ProducerType[] }) {
+export default function ProducerTable({
+    data,
+    setCurrentPage,
+    setPageSize,
+    totalCount,
+}: {
+    data: ProducerType[];
+    setCurrentPage: (page: number) => void;
+    setPageSize: (page: number) => void;
+    totalCount: number;
+}) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -213,8 +223,12 @@ export default function ProducerTable({ data }: { data: ProducerType[] }) {
 
     const table = useReactTable({
         data,
-        //producers,
         columns,
+        initialState: {
+            pagination: {
+                pageSize: 30,
+            },
+        },
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
@@ -230,7 +244,7 @@ export default function ProducerTable({ data }: { data: ProducerType[] }) {
             rowSelection,
         },
     });
-
+    
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
@@ -315,8 +329,7 @@ export default function ProducerTable({ data }: { data: ProducerType[] }) {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell
-                                        key={cell.id}>
+                                        <TableCell key={cell.id}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
