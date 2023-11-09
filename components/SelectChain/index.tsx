@@ -19,12 +19,21 @@ import {
 } from '@/components/ui/popover';
 import { chainIdsToIndices } from '@wharfkit/session';
 
+const supported_chains = ['EOS', 'FIO', 'PROTON', 'JUNGLE4', 'LIBRE'];
+
 const chains = Array.from(chainIdsToIndices, ([value, label]) => ({
     value: value.toString(),
     label: label.toString(),
-}));
+})).filter((chain) => {
+    if (supported_chains.includes(chain.label.toUpperCase())) return true;
+    return false;
+});
 
-const SelectChain = () => {
+const SelectChain = ({
+    setSelectedChain,
+}: {
+    setSelectedChain: (id: string) => void;
+}) => {
     const [open, setOpen] = React.useState(false);
     const [id, setId] = React.useState('');
 
@@ -38,20 +47,18 @@ const SelectChain = () => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[250px] justify-between bg-white text-black"
+                    className="w-[250px] max-md:w-full justify-between bg-white text-black"
                 >
                     {id
-                        ? chains
-                              .find((chain) => chain.value === id)
-                              ?.label
+                        ? chains.find((chain) => chain.value === id)?.label
                         : 'Select Chain...'}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0  bg-white text-black">
+            <PopoverContent className="w-[200px] p-0 bg-white text-black">
                 <Command>
                     <CommandInput placeholder="Search Chain..." />
-                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandEmpty>No Chain found.</CommandEmpty>
                     <CommandGroup>
                         {chains.map((chain) => (
                             <CommandItem
@@ -59,15 +66,15 @@ const SelectChain = () => {
                                 key={chain.value}
                                 value={chain.label}
                                 onSelect={(currentValue) => {
-                                    const val = chains
-                                        .find(
-                                            (chain) =>
-                                                chain.label
-                                                    .toLowerCase() ===
-                                                currentValue.toLowerCase()
-                                        )
-                                        ?.value;
+                                    const val = chains.find(
+                                        (chain) =>
+                                            chain.label.toLowerCase() ===
+                                            currentValue.toLowerCase()
+                                    )?.value;
                                     setId(val ? (val === id ? '' : val) : '');
+                                    setSelectedChain(
+                                        val ? (val === id ? '' : val) : ''
+                                    );
                                     setOpen(false);
                                 }}
                             >

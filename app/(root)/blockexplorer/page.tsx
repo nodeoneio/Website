@@ -3,21 +3,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { OnChainInfoTypeProps } from '@/components/OnChainInfoCard';
+import SelectChain from '@/components/SelectChain';
+import { ProducerType } from '@/components/ProducerTable.tsx';
+import BlockExplorerMain from '@/components/BlockExplorerMain';
 
-import OnChainInfoCard, {
-    OnChainInfoTypeProps,
-} from '@/components/OnChainInfoCard';
+import { nodeone_logo } from '@/public/assets/icons';
+import AuthContext from '@/context/auth-context';
 
 import { chainIdsToIndices } from '@wharfkit/session';
 import Image from 'next/image';
-import { nodeone_logo } from '@/public/assets/icons';
-import AuthContext from '@/context/auth-context';
-import SelectChain from '@/components/SelectChain';
-import ProducerTable, { ProducerType } from '@/components/ProducerTable.tsx';
 
 const page = () => {
-    const [info, setInfo] = useState<OnChainInfoTypeProps[]>();
+    const [liveInfo, setLiveInfo] = useState<OnChainInfoTypeProps[]>();
     const [producers, setProducers] = useState<ProducerType[]>();
+    const [chainId, setChainId] = useState('');
+
     const ctx = useContext(AuthContext);
 
     const fetchProducers = async () => {
@@ -57,10 +58,17 @@ const page = () => {
         const data = await response.json();
         setProducers(data.producers);
     };
-    const fetchCurrentBlock = async () => {
+
+    const setSelectedChainValue = (id: string) => {
+        setChainId(id);
+    };
+
+    const fetchLiveBlock = async () => {
         // TODO: session kit 이 BlockExplorer 의 모든 기능을 구현하기엔 미비한 부분이 있어서 일단 버전업/기능확충 대기.
         //const res = await ctx.session?.client.v1.chain.get_info();
-        const response = await fetch('/jungle/v1/chain/get_info');
+
+        //const response = await fetch('/jungle/v1/chain/get_info');
+        const response = await fetch('/eos/v1/chain/get_info');
 
         const info = await response.json();
         const infoType: OnChainInfoTypeProps[] = [
@@ -100,22 +108,22 @@ const page = () => {
             },
         ];
 
-        setInfo(infoType);
+        setLiveInfo(infoType);
     };
 
     useEffect(() => {
         fetchProducers();
-        fetchCurrentBlock();
+        if (chainId !== '') fetchLiveBlock();
         // const interval = setInterval(() => {
         //     fetchCurrentBlock();
         // }, 10000);
 
         //return () => clearInterval(interval);
-    }, []);
+    }, [chainId]);
 
     return (
         <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
-            <div className="flex flex-row w-full justify-between items-end text-left gap-5">
+            <div className="flex flex-row max-md:flex-col w-full justify-between max-md:items-start items-end text-left gap-5">
                 <h1 className="text-heading1-bold font-montserrat text-white sm:text-4.5xl">
                     Blockchain Explorer
                 </h1>
@@ -134,38 +142,34 @@ const page = () => {
                 </div>
             </div>
 
-            <div className="flex w-full mt-5 justify-center items-center space-x-2">
-                <SelectChain />
-                <Input
-                    type="search"
-                    placeholder="Search for the Accounts, Transactions or Blocks..."
-                    className="text-secondary-500"
-                />
-                <Button
-                    type="submit"
-                    className="bg-slate-500"
-                >
-                    Search
-                </Button>
+            <div className="flex max-md:flex-col w-full mt-5 justify-start items-start gap-2">
+                <SelectChain setSelectedChain={setSelectedChainValue}/>
+                <div className='flex w-full gap-2'>
+                    <Input
+                        type="search"
+                        placeholder="Search for the Accounts, Transactions or Blocks..."
+                        className="text-secondary-500"
+                    />
+                    <Button
+                        type="submit"
+                        className="bg-slate-500"
+                    >
+                        Search
+                    </Button>
+                </div>
             </div>
             <div className="w-full h-[3px] my-5 bg-slate-500 rounded-lg" />
-            <div className="flex flex-row flex-wrap w-full gap-3 justify-between text-body-bold">
-                {info?.map((i) => (
-                    <OnChainInfoCard
-                        key={i.title}
-                        title={i.title}
-                        data={i.data}
-                    />
-                ))}
-            </div>
-            <div className="w-full h-[3px] mt-6 mb-3 bg-slate-500 rounded-lg" />
-            <div className="w-full h-full">
-                {producers ? (
-                    <ProducerTable data={producers} />
-                ) : (
-                    <p>no data</p>
-                )}
-            </div>
+
+            {chainId ? (
+                <BlockExplorerMain
+                    liveInfo={liveInfo}
+                    producers={producers}
+                />
+            ) : (
+                <div className="w-full h-screen text-heading1-bold text-center">
+                    Please Select a Blockchain
+                </div>
+            )}
         </div>
     );
 };

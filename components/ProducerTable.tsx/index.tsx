@@ -96,7 +96,7 @@ export const columns: ColumnDef<ProducerType>[] = [
             );
         },
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue('rank')}</div>
+            <div className="w-[50%] text-center">{row.getValue('rank')}</div>
         ),
     },
     {
@@ -137,17 +137,17 @@ export const columns: ColumnDef<ProducerType>[] = [
         ),
     },
     {
-        accessorKey: 'country',
-        header: 'Country',
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue('country')}</div>
-        ),
-    },
-    {
         accessorKey: 'location',
         header: 'Location',
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue('location')}</div>
+        ),
+    },
+    {
+        accessorKey: 'country',
+        header: 'Country',
+        cell: ({ row }) => (
+            <div className="capitalize">{row.getValue('country')}</div>
         ),
     },
     {
@@ -315,7 +315,8 @@ export default function ProducerTable({ data }: { data: ProducerType[] }) {
                                     }
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell
+                                        key={cell.id}>
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

@@ -11,6 +11,10 @@ const nextConfig = {
             destination: `https://api-jungle4.nodeone.network:8344/:path*`,
           },
           {
+            source: '/eos/:path*',
+            destination: `https://eos.eosusa.io/:path*`,
+          },
+          {
             source: '/api-n1/:path*',
             //destination: `http://localhost:8888/:path*`,
             destination: `http://api-n1.nodeone.network:8888/:path*`,
