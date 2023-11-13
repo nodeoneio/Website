@@ -7,12 +7,24 @@ const nextConfig = {
     async rewrites() {
         return [
           {
-            source: '/jungle/:path*',
+            source: '/jungle4/:path*',
             destination: `https://api-jungle4.nodeone.network:8344/:path*`,
           },
           {
             source: '/eos/:path*',
             destination: `https://eos.eosusa.io/:path*`,
+          },
+          {
+            source: '/fio/:path*',
+            destination: `https://api-fio.nodeone.network:8344/:path*`,
+          },
+          {
+            source: '/proton/:path*',
+            destination: `https://api-proton.nodeone.network:8344/:path*`,
+          },
+          {
+            source: '/libre/:path*',
+            destination: `https://api-libre.nodeone.network:8344/:path*`,
           },
           {
             source: '/api-n1/:path*',

@@ -60,11 +60,13 @@ const page = () => {
 
         const pathStr = path.join(
             '/api-n1/getproducers',
+            chainId,
             String(currentPage),
             String(pageSize)
         );
         const response = await fetch(pathStr);
         const data = await response.json();
+        console.log(data);
         setProducers(data.producers);
         setTotalCount(data.totalCount);
     };
@@ -72,15 +74,26 @@ const page = () => {
     const fetchLiveBlock = async () => {
         // TODO: session kit 이 BlockExplorer 의 모든 기능을 구현하기엔 미비한 부분이 있어서 일단 버전업/기능확충 대기.
         //const res = await ctx.session?.client.v1.chain.get_info();
+        const chainName = String(chainIdsToIndices.get(chainId)) || '-';
 
-        //const response = await fetch('/jungle/v1/chain/get_info');
-        const response = await fetch('/eos/v1/chain/get_info');
+        const getInfo = async () => {
+            if (chainName !== '-') {
+                const response = await fetch(
+                    path.join(chainName, 'v1', 'chain', 'get_info')
+                );
 
-        const info = await response.json();
+                return await response.json();
+            }
+
+            return;
+        };
+
+        const info = await getInfo();
+
         const infoType: OnChainInfoTypeProps[] = [
             {
                 title: 'Chain',
-                data: chainIdsToIndices.get(info?.chain_id),
+                data: chainName,
             },
             {
                 title: 'Head Block',
@@ -132,6 +145,9 @@ const page = () => {
             <div className="flex flex-row max-md:flex-col w-full justify-between max-md:items-start items-end text-left gap-5">
                 <h1 className="text-heading1-bold font-montserrat text-white sm:text-4.5xl">
                     Blockchain Explorer
+                    <span className="text-body-medium font-palanquin ml-5">
+                        v1.0 (alpha)
+                    </span>
                 </h1>
                 <div className="flex flex-row gap-2 items-center">
                     <p className="text-white text-body-medium font-palanquin">
@@ -150,7 +166,11 @@ const page = () => {
 
             <div className="flex max-md:flex-col w-full mt-5 justify-start items-start gap-2">
                 <SelectChain setSelectedChain={setChainId} />
-                <div className="flex w-full gap-2">
+                <div
+                    className={`flex w-full gap-2 ${
+                        chainId ? '' : 'pointer-events-none opacity-70'
+                    }`}
+                >
                     <Input
                         type="search"
                         placeholder="Search for the Accounts, Transactions or Blocks..."
