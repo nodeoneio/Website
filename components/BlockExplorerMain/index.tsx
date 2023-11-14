@@ -41,7 +41,7 @@ const BlockExplorerMain = ({
                         totalCount={totalCount}
                     />
                 ) : (
-                    <p className="w-full text-center">No Data</p>
+                    <p className="w-full h-screen text-center">No Data</p>
                 )}
             </div>
         </>

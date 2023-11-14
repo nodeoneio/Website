@@ -1,8 +1,6 @@
 'use client';
 
 import { ImHome } from 'react-icons/im';
-import { IoCubeOutline } from 'react-icons/io5';
-import { IoMdCube } from 'react-icons/io';
 
 import * as React from 'react';
 import { CaretSortIcon } from '@radix-ui/react-icons';
@@ -48,7 +46,7 @@ export type ProducerType = {
     logo_svg?: string;
     logo_png?: string;
     location?: string;
-    country?: string;
+    // country?: string;
 };
 
 export const columns: ColumnDef<ProducerType>[] = [
@@ -75,7 +73,7 @@ export const columns: ColumnDef<ProducerType>[] = [
         accessorKey: 'logo_png',
         header: 'Logo',
         cell: ({ row }) => (
-            <div className="flex h-[30px] w-[30px] rounded-full bg-white text-secondary-500 items-center justify-center p-1 text-center">
+            <div className="flex h-[32px] w-[32px] rounded-full bg-white text-secondary-500 items-center justify-center p-1 text-center">
                 {row.getValue('logo_png') ? (
                     <img
                         src={row.getValue('logo_png')}
@@ -144,13 +142,13 @@ export const columns: ColumnDef<ProducerType>[] = [
             <div className="capitalize">{row.getValue('location')}</div>
         ),
     },
-    {
-        accessorKey: 'country',
-        header: 'Country',
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue('country')}</div>
-        ),
-    },
+    // {
+    //     accessorKey: 'country',
+    //     header: 'Country',
+    //     cell: ({ row }) => (
+    //         <div className="capitalize">{row.getValue('country')}</div>
+    //     ),
+    // },
     {
         accessorKey: 'total_votes',
         header: () => <div className="text-right">Total Votes</div>,
