@@ -66,7 +66,7 @@ const page = () => {
         );
         const response = await fetch(pathStr);
         const data = await response.json();
-        console.log(data);
+        
         setProducers(data.producers);
         setTotalCount(data.totalCount);
     };
@@ -131,8 +131,11 @@ const page = () => {
     };
 
     useEffect(() => {
-        fetchProducers();
-        if (chainId !== '') fetchLiveBlock();
+        
+        if (chainId !== '') {
+            fetchProducers();
+            fetchLiveBlock();
+        }
         // const interval = setInterval(() => {
         //     fetchCurrentBlock();
         // }, 10000);
@@ -165,7 +168,7 @@ const page = () => {
             </div>
 
             <div className="flex max-md:flex-col w-full mt-5 justify-start items-start gap-2">
-                <SelectChain setSelectedChain={setChainId} />
+                <SelectChain setSelectedChain={setChainId} setCurrentPage={setCurrentPage}/>
                 <div
                     className={`flex w-full gap-2 ${
                         chainId ? '' : 'pointer-events-none opacity-70'
@@ -192,6 +195,8 @@ const page = () => {
                     producers={producers}
                     setCurrentPage={setCurrentPage}
                     setPageSize={setPageSize}
+                    currentPage={currentPage}
+                    pageSize={pageSize}
                     totalCount={totalCount}
                 />
             ) : (

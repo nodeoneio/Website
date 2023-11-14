@@ -6,12 +6,16 @@ const BlockExplorerMain = ({
     producers,
     setCurrentPage,
     setPageSize,
+    currentPage,
+    pageSize,
     totalCount,
 }: {
     liveInfo: OnChainInfoTypeProps[] | undefined;
     producers: ProducerType[] | undefined;
     setCurrentPage: (page: number) => void;
     setPageSize: (page: number) => void;
+    currentPage: number;
+    pageSize: number;
     totalCount: number;
 }) => {
     return (
@@ -32,6 +36,8 @@ const BlockExplorerMain = ({
                         data={producers}
                         setCurrentPage={setCurrentPage}
                         setPageSize={setPageSize}
+                        currentPage={currentPage}
+                        pageSize={pageSize}
                         totalCount={totalCount}
                     />
                 ) : (

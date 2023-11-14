@@ -31,8 +31,10 @@ const chains = Array.from(chainIdsToIndices, ([value, label]) => ({
 
 const SelectChain = ({
     setSelectedChain,
+    setCurrentPage,
 }: {
     setSelectedChain: (id: string) => void;
+    setCurrentPage: (page: number) => void;
 }) => {
     const [open, setOpen] = React.useState(false);
     const [id, setId] = React.useState('');
@@ -75,6 +77,7 @@ const SelectChain = ({
                                     setSelectedChain(
                                         val ? (val === id ? '' : val) : ''
                                     );
+                                    setCurrentPage(1);
                                     setOpen(false);
                                 }}
                             >

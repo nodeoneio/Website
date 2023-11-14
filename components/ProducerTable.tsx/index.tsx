@@ -1,11 +1,11 @@
 'use client';
 
+import { ImHome } from 'react-icons/im';
+import { IoCubeOutline } from 'react-icons/io5';
+import { IoMdCube } from 'react-icons/io';
+
 import * as React from 'react';
-import {
-    CaretSortIcon,
-    ChevronDownIcon,
-    DotsHorizontalIcon,
-} from '@radix-ui/react-icons';
+import { CaretSortIcon } from '@radix-ui/react-icons';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -20,16 +20,7 @@ import {
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { Input } from '@/components/ui/input';
 import {
     Table,
@@ -40,6 +31,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export type ProducerType = {
     _id: string;
@@ -54,32 +46,12 @@ export type ProducerType = {
     location_code: number;
     candidate_name?: string;
     logo_svg?: string;
+    logo_png?: string;
     location?: string;
     country?: string;
 };
 
 export const columns: ColumnDef<ProducerType>[] = [
-    {
-        id: 'select',
-        header: ({ table }) => (
-            <Checkbox
-                checked={table.getIsAllPageRowsSelected()}
-                onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                }
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
     {
         accessorKey: 'rank',
         header: ({ column }) => {
@@ -100,19 +72,34 @@ export const columns: ColumnDef<ProducerType>[] = [
         ),
     },
     {
-        accessorKey: 'logo_svg',
+        accessorKey: 'logo_png',
         header: 'Logo',
         cell: ({ row }) => (
-            <div className="flex h-[24px] w-[48px] rounded-lg bg-white items-center justify-center">
-                {row.getValue('logo_svg') ? (
+            <div className="flex h-[30px] w-[30px] rounded-full bg-white text-secondary-500 items-center justify-center p-1 text-center">
+                {row.getValue('logo_png') ? (
+                    <img
+                        src={row.getValue('logo_png')}
+                        alt={(row.getValue('candidate_name') as string)
+                            .charAt(0)
+                            .toUpperCase()}
+                        width={24}
+                        height={24}
+                    />
+                ) : row.getValue('logo_svg') ? (
                     <Image
-                        src={row.getValue('logo_svg')}
-                        alt="logo"
+                        src={row.getValue('logo_png')}
+                        alt={(row.getValue('candidate_name') as string)
+                            .charAt(0)
+                            .toUpperCase()}
                         width={24}
                         height={24}
                     />
                 ) : (
-                    <p>no</p>
+                    <p>
+                        {(row.getValue('candidate_name') as string)
+                            .charAt(0)
+                            .toUpperCase()}
+                    </p>
                 )}
             </div>
         ),
@@ -136,6 +123,20 @@ export const columns: ColumnDef<ProducerType>[] = [
             <div className="lowercase">{row.getValue('candidate_name')}</div>
         ),
     },
+
+    {
+        accessorKey: 'url',
+        header: 'URL',
+        cell: ({ row }) => (
+            <Link
+                href={row.getValue('url')}
+                target="_blank"
+            >
+                <ImHome />
+            </Link>
+        ),
+    },
+
     {
         accessorKey: 'location',
         header: 'Location',
@@ -165,53 +166,21 @@ export const columns: ColumnDef<ProducerType>[] = [
             return <div className="text-right font-medium">{formatted}</div>;
         },
     },
-    {
-        id: 'actions',
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            className="h-8 w-8 p-0"
-                        >
-                            <span className="sr-only">Open menu</span>
-                            <DotsHorizontalIcon className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(payment._id)
-                            }
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            View payment details
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-    },
 ];
 
 export default function ProducerTable({
     data,
     setCurrentPage,
     setPageSize,
+    currentPage,
+    pageSize,
     totalCount,
 }: {
     data: ProducerType[];
     setCurrentPage: (page: number) => void;
     setPageSize: (page: number) => void;
+    currentPage: number;
+    pageSize: number;
     totalCount: number;
 }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -244,7 +213,11 @@ export default function ProducerTable({
             rowSelection,
         },
     });
-    
+
+    const totalPageNumArray = Array.from(
+        Array(Math.ceil(totalCount / pageSize))
+    ).map((e, i) => i + 1);
+
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
@@ -262,42 +235,8 @@ export default function ProducerTable({
                     }
                     className="max-w-sm text-secondary-500"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger
-                        asChild
-                        className="bg-white text-secondary-500"
-                    >
-                        <Button
-                            variant="outline"
-                            className="ml-auto"
-                        >
-                            Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        align="end"
-                        className="bg-white text-secondary-500"
-                    >
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -352,24 +291,35 @@ export default function ProducerTable({
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{' '}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
                 <div className="space-x-2">
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
                     >
                         Previous
                     </Button>
+                    {totalPageNumArray.map((num) => (
+                        <Button
+                            key={num}
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentPage(num)}
+                            disabled={currentPage === num}
+                        >
+                            {num}
+                        </Button>
+                    ))}
+
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={
+                            currentPage ===
+                            totalPageNumArray[totalPageNumArray.length - 1]
+                        }
                     >
                         Next
                     </Button>
