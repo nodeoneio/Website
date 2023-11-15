@@ -73,7 +73,7 @@ export const columns: ColumnDef<ProducerType>[] = [
         accessorKey: 'logo_png',
         header: 'Logo',
         cell: ({ row }) => (
-            <div className="flex h-[32px] w-[32px] rounded-full bg-white text-secondary-500 items-center justify-center p-1 text-center">
+            <div className="flex h-[32px] w-[32px] rounded-full bg-white text-secondary-500 items-center justify-center p-[5px] text-center">
                 {row.getValue('logo_png') ? (
                     <img
                         src={row.getValue('logo_png')}
@@ -94,9 +94,11 @@ export const columns: ColumnDef<ProducerType>[] = [
                     />
                 ) : (
                     <p>
-                        {(row.getValue('candidate_name') as string)
-                            .charAt(0)
-                            .toUpperCase()}
+                        {row.getValue('candidate_name')
+                            ? (row.getValue('candidate_name') as string)
+                                  .charAt(0)
+                                  .toUpperCase()
+                            : ''}
                     </p>
                 )}
             </div>
@@ -126,12 +128,18 @@ export const columns: ColumnDef<ProducerType>[] = [
         accessorKey: 'url',
         header: 'URL',
         cell: ({ row }) => (
-            <Link
-                href={row.getValue('url')}
-                target="_blank"
-            >
-                <ImHome />
-            </Link>
+            <div>
+                {row.getValue('url') ? (
+                    <Link
+                        href={row.getValue('url')}
+                        target="_blank"
+                    >
+                        <ImHome />
+                    </Link>
+                ) : (
+                    ''
+                )}
+            </div>
         ),
     },
 
