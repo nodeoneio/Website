@@ -44,10 +44,12 @@ const BlockExplorerMain = ({
                     : producer.url,
 
                 location: isBPJsonExist
-                    ? [
+                    ? producer.location + ' (' +
+                      [
                           producer.bp_json[0].org.location.name,
                           producer.bp_json[0].org.location.country,
-                      ].join(', ')
+                      ].join(', ') +
+                      ')'
                     : producer.location,
                 total_votes: Number(producer.total_votes),
             };

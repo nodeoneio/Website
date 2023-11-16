@@ -27,10 +27,12 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "i18next": "^23.7.6",
     "lucide-react": "^0.290.0",
     "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-i18next": "^13.5.0",
     "react-icons": "^4.11.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
@@ -45,5 +47,20 @@
     "postcss": "^8",
     "tailwindcss": "^3",
     "typescript": "^5"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodeoneio/website.git"
+  },
+  "author": "junhank <etranger05@gmail.com>",
+  "license": "MIT",
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "bugs": {
+    "url": "https://github.com/nodeoneio/website/issues"
+  },
+  "homepage": "https://github.com/nodeoneio/website#readme",
+  "directories": {
+    "lib": "lib"
   }
 }

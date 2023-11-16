@@ -8,6 +8,9 @@ import SelectChain from '@/components/SelectChain';
 import { bpInfoType } from '@/components/ProducerTable.tsx';
 import BlockExplorerMain from '@/components/BlockExplorerMain';
 
+import { useTranslation } from 'react-i18next';
+import i18n from '@/locale/i18n';
+
 import { nodeone_logo } from '@/public/assets/icons';
 import { chainIdsToIndices } from '@wharfkit/session';
 import Image from 'next/image';
@@ -21,6 +24,12 @@ const page = () => {
     const [pageSize, setPageSize] = useState(30);
     const [totalCount, setTotalCount] = useState(0);
     const [isPageInfoLoading, setIsPageInfoLoading] = useState(false);
+    const [ t ] = useTranslation();
+
+
+    const changeLanguage = (lang: string) => {
+        i18n.changeLanguage(lang);
+      };
 
     const fetchProducers = async () => {
         const pathStr = path.join(
@@ -31,7 +40,7 @@ const page = () => {
         );
         const response = await fetch(pathStr);
         const data = await response.json();
-        
+
         setProducers(data.producers);
         setTotalCount(data.totalCount);
     };
@@ -118,11 +127,12 @@ const page = () => {
     const isExplorerDataEmpty =
         chainId === '' && !isPageInfoLoading ? true : false;
 
+
     return (
         <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
             <div className="flex flex-row max-md:flex-col w-full justify-between max-md:items-start items-end text-left gap-5">
                 <h1 className="text-heading1-bold font-montserrat text-white sm:text-4.5xl">
-                    Blockchain Explorer
+                    {t('Block_Explorer_Title')}
                     <span className="text-body-medium font-palanquin ml-5">
                         v1.0 (alpha)
                     </span>
