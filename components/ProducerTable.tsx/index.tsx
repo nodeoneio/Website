@@ -103,6 +103,9 @@ export type bpJsonType = {
     ];
 };
 
+// 투표량 반올림 자릿수
+let pow = 0;
+
 export const columns: ColumnDef<columnDataType>[] = [
     //   export const columns: ColumnDef<bpInfoType>[] = [
     {
@@ -139,15 +142,6 @@ export const columns: ColumnDef<columnDataType>[] = [
                         height={24}
                     />
                 ) : (
-                    // ) : row.getValue('logo_svg') ? (
-                    //     <Image
-                    //         src={row.getValue('logo_png')}
-                    //         alt={(row.getValue('candidate_name') as string)
-                    //             .charAt(0)
-                    //             .toUpperCase()}
-                    //         width={24}
-                    //         height={24}
-                    //     />
                     <p>
                         {row.getValue('name')
                             ? (row.getValue('name') as string)
@@ -208,14 +202,20 @@ export const columns: ColumnDef<columnDataType>[] = [
         header: () => <div className="text-right">Total Votes</div>,
         cell: ({ row }) => {
             const total_votes = parseFloat(row.getValue('total_votes'));
+            let total_votes_diaplay = Math.round(total_votes);
+            const vote_length = total_votes.toString().length;
 
-            // Format the amount as a dollar amount
-            const formatted = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-            }).format(total_votes);
+            if (vote_length > 8) {
+                pow = pow === 0 ? total_votes.toString().length - 8 : pow;
+                total_votes_diaplay =
+                    Math.round(total_votes / Math.pow(10, pow));
+            }
 
-            return <div className="text-right font-medium">{formatted}</div>;
+            return (
+                <div className="text-right font-medium">
+                    {total_votes_diaplay.toLocaleString()}
+                </div>
+            );
         },
     },
 ];

@@ -23,7 +23,7 @@ const BlockExplorerMain = ({
     totalCount: number;
     isLiveInfoLoading: boolean;
 }) => {
-   // console.log(producers);
+    // console.log(producers);
     const data =
         producers &&
         producers.map((producer) => {
@@ -32,7 +32,9 @@ const BlockExplorerMain = ({
             const res: columnDataType = {
                 rank: producer.rank,
                 logo: isBPJsonExist
-                    ? producer.bp_json[0].org.branding.logo_256
+                    ? producer.bp_json[0].org.branding
+                        ? producer.bp_json[0].org.branding.logo_256
+                        : ''
                     : '',
                 name: isBPJsonExist
                     ? producer.bp_json[0].org.candidate_name
