@@ -9,6 +9,7 @@ import menu from './menu.svg'
 import eosverse from './eosverse_logo_w.svg'
 import user from './user.svg'
 import logout from './logout.svg'
+import spinner from './spinner.svg'
 
 export {
     copyrightSign,
@@ -22,4 +23,5 @@ export {
     eosverse,
     user,
     logout,
+    spinner,
 }

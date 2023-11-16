@@ -1,7 +1,7 @@
 'use client';
 
 import { ImHome } from 'react-icons/im';
-
+import { spinner } from '@/public/assets/icons';
 import * as React from 'react';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import {
@@ -32,7 +32,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export type ProducerType = {
-    _id: string;
+    chainId: string;
+    total_producer_vote_weight: string;
+    rows: bpInfoType[];
+};
+
+export type columnDataType = {
+    name: string;
+    rank: number;
+    logo: string;
+    url: string;
+    location: string;
+    total_votes: number;
+};
+
+export type bpInfoType = {
     owner: string;
     rank: number;
     total_votes: string;
@@ -41,15 +55,56 @@ export type ProducerType = {
     url: string;
     unpaid_blocks: number;
     last_claim_time: string;
-    location_code: number;
-    candidate_name?: string;
-    logo_svg?: string;
-    logo_png?: string;
-    location?: string;
-    // country?: string;
+    location: string;
+    bp_json: bpJsonType[];
 };
 
-export const columns: ColumnDef<ProducerType>[] = [
+export type bpJsonType = {
+    producer_account_name: string;
+    org: {
+        candidate_name: string;
+        website: string;
+        code_of_conduct: string;
+        ownership_disclosure: string;
+        email: string;
+        github_user: string | string[];
+        branding: {
+            logo_256: string;
+            logo_1024: string;
+            logo_svg: string;
+        };
+        location: {
+            name: string;
+            country: string;
+            latitude: number;
+            longitude: number;
+        };
+        social: {
+            steemit: string;
+            twitter: string;
+            github: string;
+            keybase: string;
+            telegram: string;
+        };
+    };
+    nodes: [
+        {
+            location: {
+                name: string;
+                country: string;
+                latitude: number;
+                longitude: number;
+            };
+            node_type: string[];
+            p2p_endpoint: string;
+            api_endpoint: string;
+            ssl_endpoint: string;
+        }
+    ];
+};
+
+export const columns: ColumnDef<columnDataType>[] = [
+    //   export const columns: ColumnDef<bpInfoType>[] = [
     {
         accessorKey: 'rank',
         header: ({ column }) => {
@@ -70,32 +125,32 @@ export const columns: ColumnDef<ProducerType>[] = [
         ),
     },
     {
-        accessorKey: 'logo_png',
+        accessorKey: 'logo',
         header: 'Logo',
         cell: ({ row }) => (
             <div className="flex h-[32px] w-[32px] rounded-full bg-white text-secondary-500 items-center justify-center p-[5px] text-center">
-                {row.getValue('logo_png') ? (
+                {row.getValue('logo') ? (
                     <img
-                        src={row.getValue('logo_png')}
-                        alt={(row.getValue('candidate_name') as string)
-                            .charAt(0)
-                            .toUpperCase()}
-                        width={24}
-                        height={24}
-                    />
-                ) : row.getValue('logo_svg') ? (
-                    <Image
-                        src={row.getValue('logo_png')}
-                        alt={(row.getValue('candidate_name') as string)
+                        src={row.getValue('logo')}
+                        alt={(row.getValue('name') as string)
                             .charAt(0)
                             .toUpperCase()}
                         width={24}
                         height={24}
                     />
                 ) : (
+                    // ) : row.getValue('logo_svg') ? (
+                    //     <Image
+                    //         src={row.getValue('logo_png')}
+                    //         alt={(row.getValue('candidate_name') as string)
+                    //             .charAt(0)
+                    //             .toUpperCase()}
+                    //         width={24}
+                    //         height={24}
+                    //     />
                     <p>
-                        {row.getValue('candidate_name')
-                            ? (row.getValue('candidate_name') as string)
+                        {row.getValue('name')
+                            ? (row.getValue('name') as string)
                                   .charAt(0)
                                   .toUpperCase()
                             : ''}
@@ -105,7 +160,7 @@ export const columns: ColumnDef<ProducerType>[] = [
         ),
     },
     {
-        accessorKey: 'candidate_name',
+        accessorKey: 'name',
         header: ({ column }) => {
             return (
                 <Button
@@ -120,10 +175,9 @@ export const columns: ColumnDef<ProducerType>[] = [
             );
         },
         cell: ({ row }) => (
-            <div className="lowercase">{row.getValue('candidate_name')}</div>
+            <div className="lowercase">{row.getValue('name')}</div>
         ),
     },
-
     {
         accessorKey: 'url',
         header: 'URL',
@@ -142,7 +196,6 @@ export const columns: ColumnDef<ProducerType>[] = [
             </div>
         ),
     },
-
     {
         accessorKey: 'location',
         header: 'Location',
@@ -150,13 +203,6 @@ export const columns: ColumnDef<ProducerType>[] = [
             <div className="capitalize">{row.getValue('location')}</div>
         ),
     },
-    // {
-    //     accessorKey: 'country',
-    //     header: 'Country',
-    //     cell: ({ row }) => (
-    //         <div className="capitalize">{row.getValue('country')}</div>
-    //     ),
-    // },
     {
         accessorKey: 'total_votes',
         header: () => <div className="text-right">Total Votes</div>,
@@ -181,13 +227,15 @@ export default function ProducerTable({
     currentPage,
     pageSize,
     totalCount,
+    isLiveInfoLoading,
 }: {
-    data: ProducerType[];
+    data: columnDataType[];
     setCurrentPage: (page: number) => void;
     setPageSize: (page: number) => void;
     currentPage: number;
     pageSize: number;
     totalCount: number;
+    isLiveInfoLoading: boolean;
 }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
@@ -226,21 +274,33 @@ export default function ProducerTable({
 
     return (
         <div className="w-full">
-            <div className="flex items-center py-4">
+            <div className="flex justify-between items-center py-4">
                 <Input
                     placeholder="Filter Validator Name..."
                     value={
-                        (table
-                            .getColumn('candidate_name')
-                            ?.getFilterValue() as string) ?? ''
+                        (table.getColumn('name')?.getFilterValue() as string) ??
+                        ''
                     }
                     onChange={(event) =>
                         table
-                            .getColumn('candidate_name')
+                            .getColumn('name')
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm text-secondary-500"
                 />
+                {isLiveInfoLoading ? (
+                    <div className="flex items-center justify-center gap-3">
+                        <Image
+                            src={spinner}
+                            alt="spinner"
+                            width={30}
+                            height={30}
+                        />
+                        Loading...
+                    </div>
+                ) : (
+                    ''
+                )}
             </div>
 
             <div className="rounded-md border">

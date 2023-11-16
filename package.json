@@ -19,6 +19,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "^5.4.3",
     "@tanstack/react-table": "^8.10.7",
+    "@wharfkit/account": "^1.0.0",
+    "@wharfkit/contract": "^1.0.0",
     "@wharfkit/session": "^1.0.0",
     "@wharfkit/wallet-plugin-anchor": "^1.0.4",
     "@wharfkit/web-renderer": "^1.0.3",

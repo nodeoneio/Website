@@ -1,63 +1,28 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { OnChainInfoTypeProps } from '@/components/OnChainInfoCard';
 import SelectChain from '@/components/SelectChain';
-import { ProducerType } from '@/components/ProducerTable.tsx';
+import { bpInfoType } from '@/components/ProducerTable.tsx';
 import BlockExplorerMain from '@/components/BlockExplorerMain';
 
 import { nodeone_logo } from '@/public/assets/icons';
-import AuthContext from '@/context/auth-context';
-
 import { chainIdsToIndices } from '@wharfkit/session';
 import Image from 'next/image';
 import path from 'path';
 
 const page = () => {
     const [liveInfo, setLiveInfo] = useState<OnChainInfoTypeProps[]>();
-    const [producers, setProducers] = useState<ProducerType[]>();
+    const [producers, setProducers] = useState<bpInfoType[]>();
     const [chainId, setChainId] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(30);
     const [totalCount, setTotalCount] = useState(0);
-
-    const ctx = useContext(AuthContext);
+    const [isPageInfoLoading, setIsPageInfoLoading] = useState(false);
 
     const fetchProducers = async () => {
-        // TODO: session kit 이 BlockExplorer 의 모든 기능을 구현하기엔 미비한 부분이 있어서 일단 버전업/기능확충 대기.
-        // const res = await ctx.session?.client.v1.chain.get_producer_schedule();
-        // console.log('URL: ' + ctx.session?.chain.url);
-        // if (res) {
-        //     console.log(JSON.stringify(res.toJSON()));
-        //     const producers = res.active.producers.map((producer) => ({
-        //         p: producer.producer_name.toString(),
-        //         i: producer.authority.toString(),
-        //     }));
-        //     console.log('active: ' + res.active.producers);
-        //     console.log('active: ' + producers.reduce);
-        //     console.log(
-        //         'pending: ' + (res.pending ? res.pending.producers : 'empty')
-        //     );
-        //     console.log(
-        //         'proposed: ' + (res.proposed ? res.proposed.producers : 'empty')
-        //     );
-        // }
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         limit: '21',
-        //         lower_bound: 'lioninjungle',
-        //         json: true,
-        //     }),
-        // };
-        // const response = await fetch(
-        //     '/jungle/v1/chain/get_producers',
-        //     requestOptions
-        // );
-
         const pathStr = path.join(
             '/api-n1/getproducers',
             chainId,
@@ -131,17 +96,27 @@ const page = () => {
     };
 
     useEffect(() => {
-        
-        if (chainId !== '') {
-            fetchProducers();
-            fetchLiveBlock();
-        }
+        const init = async () => {
+            if (chainId !== '') {
+                // console.log(chainId);
+                setIsPageInfoLoading(true);
+                await fetchLiveBlock();
+                await fetchProducers();
+                setIsPageInfoLoading(false);
+            }
+        };
+
+        init();
         // const interval = setInterval(() => {
         //     fetchCurrentBlock();
         // }, 10000);
 
         //return () => clearInterval(interval);
-    }, [chainId, currentPage, pageSize]);
+    }, [chainId, currentPage]);
+    // }, [chainId, currentPage, pageSize]);
+
+    const isExplorerDataEmpty =
+        chainId === '' && !isPageInfoLoading ? true : false;
 
     return (
         <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
@@ -168,7 +143,10 @@ const page = () => {
             </div>
 
             <div className="flex max-md:flex-col w-full mt-5 justify-start items-start gap-2">
-                <SelectChain setSelectedChain={setChainId} setCurrentPage={setCurrentPage}/>
+                <SelectChain
+                    setSelectedChain={setChainId}
+                    setCurrentPage={setCurrentPage}
+                />
                 <div
                     className={`flex w-full gap-2 ${
                         chainId ? '' : 'pointer-events-none opacity-70'
@@ -189,7 +167,11 @@ const page = () => {
             </div>
             <div className="w-full h-[3px] my-5 bg-slate-500 rounded-lg" />
 
-            {chainId ? (
+            {isExplorerDataEmpty ? (
+                <div className="w-full h-screen text-heading1-bold text-center">
+                    Please Select a Blockchain
+                </div>
+            ) : (
                 <BlockExplorerMain
                     liveInfo={liveInfo}
                     producers={producers}
@@ -198,11 +180,8 @@ const page = () => {
                     currentPage={currentPage}
                     pageSize={pageSize}
                     totalCount={totalCount}
+                    isLiveInfoLoading={isPageInfoLoading}
                 />
-            ) : (
-                <div className="w-full h-screen text-heading1-bold text-center">
-                    Please Select a Blockchain
-                </div>
             )}
         </div>
     );
