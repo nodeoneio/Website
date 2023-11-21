@@ -55,8 +55,8 @@ export type bpInfoType = {
     url: string;
     unpaid_blocks: number;
     last_claim_time: string;
-    location: string;
-    bp_json: bpJsonType[];
+    location_info: string;
+    bpjson: bpJsonType;
 };
 
 export type bpJsonType = {

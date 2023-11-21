@@ -27,30 +27,23 @@ const BlockExplorerMain = ({
     const data =
         producers &&
         producers.map((producer) => {
-            const isBPJsonExist = producer.bp_json[0] ? true : false;
+            const isBPJsonExist = producer.bpjson ? true : false;
 
             const res: columnDataType = {
                 rank: producer.rank,
                 logo: isBPJsonExist
-                    ? producer.bp_json[0].org.branding
-                        ? producer.bp_json[0].org.branding.logo_256
+                    ? producer.bpjson.org.branding
+                        ? producer.bpjson.org.branding.logo_256
                         : ''
                     : '',
                 name: isBPJsonExist
-                    ? producer.bp_json[0].org.candidate_name
+                    ? producer.bpjson.org.candidate_name
                     : producer.owner,
                 url: isBPJsonExist
-                    ? producer.bp_json[0].org.website
+                    ? producer.bpjson.org.website
                     : producer.url,
 
-                location: isBPJsonExist
-                    ? producer.location + ' (' +
-                      [
-                          producer.bp_json[0].org.location.name,
-                          producer.bp_json[0].org.location.country,
-                      ].join(', ') +
-                      ')'
-                    : producer.location,
+                location: producer.location_info,
                 total_votes: Number(producer.total_votes),
             };
 
