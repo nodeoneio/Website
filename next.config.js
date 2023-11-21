@@ -29,8 +29,8 @@ const nextConfig = {
             },
             {
                 source: '/api-n1/:path*',
-                destination: `http://localhost:8888/:path*`,
-                //destination: `http://api-n1.nodeone.network:8888/:path*`,
+                //destination: `http://localhost:8888/:path*`,
+                destination: `http://api-n1.nodeone.network:8888/:path*`,
             },
         ];
     },
