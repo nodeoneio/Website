@@ -207,8 +207,9 @@ export const columns: ColumnDef<columnDataType>[] = [
 
             if (vote_length > 8) {
                 pow = pow === 0 ? total_votes.toString().length - 8 : pow;
-                total_votes_diaplay =
-                    Math.round(total_votes / Math.pow(10, pow));
+                total_votes_diaplay = Math.round(
+                    total_votes / Math.pow(10, pow)
+                );
             }
 
             return (

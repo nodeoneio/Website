@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 
 import TopLogoCard from '../TopLogoCard';
 import MobileMenu from '../sections/MobileMenu';
+import { LanguageSelector } from '../LanguageSelector';
 
 const Header = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -27,7 +28,11 @@ const Header = () => {
                 <div className="flex flex-row w-full justify-between items-center">
                     <TopLogoCard />
                     <NavMenu />
+                    <div className='flex gap-3'>
                     <Authentication />
+                    <LanguageSelector />
+                    </div>
+                    
                     <MenuButton toggleMenu={toggleShowMenu} />
                 </div>
             </nav>

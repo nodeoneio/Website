@@ -1,3 +1,13 @@
 {
-    "Block_Explorer_Title": "ブロック探索機"
+    "Block_Explorer_Title": "ブロック探索機",
+    "Hero_Message" : "私たちは Antelope プロトコルをベースにするブロックチェーン生態系及び技術に貢献しております。",
+    "EmptyBlockExplorerMessage" : "ブロックチェーンをお選びください",
+    "BlockExplorerMainSearchPlaceholder" : "アカウント、ブロック及びトランザクションを検索できます。。。",
+    "SearchButton":"検索",
+    "Login": "ログイン",
+    "Logout": "ログアウト",
+    "About": "ホームページ",
+    "Block Explorer": "ブロック探索機",
+    "Community": "コミュニティー",
+    "EOSVerse": "イオスバース"
 }

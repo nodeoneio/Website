@@ -1,0 +1,13 @@
+{
+    "Block_Explorer_Title": "Block Explorer",
+    "Hero_Message" : "We contribute to the Antelope protocol based Blockchain ecosystem and technology.",
+    "EmptyBlockExplorerMessage" : "Please Select a Blockchain",
+    "BlockExplorerMainSearchPlaceholder" : "Search for the Accounts, Transactions or Blocks...",
+    "SearchButton":"Search",
+    "Login": "Login",
+    "Logout": "Logout",
+    "About": "About",
+    "Block Explorer": "Block Explorer",
+    "Community": "Community",
+    "EOSVerse": "EOSVerse"
+}

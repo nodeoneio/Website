@@ -4,11 +4,13 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '../ui/badge';
+import { useTranslation } from 'react-i18next';
 
 const Page = () => {
     const pathName = usePathname();
+    const [t] = useTranslation();
     return (
-        <div className="flex w-full flex-1 flex-row gap-1 px-6 justify-end max-lg:hidden">
+        <div className="flex w-full flex-1 flex-row gap-1 px-6 items-center justify-end max-lg:hidden">
             {topNavLinks.map((link) => {
                 const isActive =
                     (pathName.includes(link.route) && link.route.length > 1) ||
@@ -29,7 +31,8 @@ const Page = () => {
                             height={24}
                         />
                         <p className="text-light-1 max-xl:hidden">
-                            {link.label}
+                            {t(link.label)}
+                            
                         </p>
                         {link.badge && (
                             <Badge

@@ -9,7 +9,6 @@ import { bpInfoType } from '@/components/ProducerTable.tsx';
 import BlockExplorerMain from '@/components/BlockExplorerMain';
 
 import { useTranslation } from 'react-i18next';
-import i18n from '@/locale/i18n';
 
 import { nodeone_logo } from '@/public/assets/icons';
 import { chainIdsToIndices } from '@wharfkit/session';
@@ -24,12 +23,7 @@ const page = () => {
     const [pageSize, setPageSize] = useState(30);
     const [totalCount, setTotalCount] = useState(0);
     const [isPageInfoLoading, setIsPageInfoLoading] = useState(false);
-    const [ t ] = useTranslation();
-
-
-    const changeLanguage = (lang: string) => {
-        i18n.changeLanguage(lang);
-      };
+    const [t] = useTranslation();
 
     const fetchProducers = async () => {
         const pathStr = path.join(
@@ -127,7 +121,6 @@ const page = () => {
     const isExplorerDataEmpty =
         chainId === '' && !isPageInfoLoading ? true : false;
 
-
     return (
         <div className="flex flex-col w-full h-full pt-32 bg-secondary-500 items-start text-white text-body-bold">
             <div className="flex flex-row max-md:flex-col w-full justify-between max-md:items-start items-end text-left gap-5">
@@ -164,14 +157,14 @@ const page = () => {
                 >
                     <Input
                         type="search"
-                        placeholder="Search for the Accounts, Transactions or Blocks..."
+                        placeholder={t('BlockExplorerMainSearchPlaceholder')}
                         className="text-secondary-500"
                     />
                     <Button
                         type="submit"
                         className="bg-slate-500"
                     >
-                        Search
+                        {t('SearchButton')}
                     </Button>
                 </div>
             </div>
@@ -179,7 +172,7 @@ const page = () => {
 
             {isExplorerDataEmpty ? (
                 <div className="w-full h-screen text-heading1-bold text-center">
-                    Please Select a Blockchain
+                    {t('EmptyBlockExplorerMessage')}
                 </div>
             ) : (
                 <BlockExplorerMain

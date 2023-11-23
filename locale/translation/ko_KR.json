@@ -1,3 +1,13 @@
 {
-    "Block_Explorer_Title": "블록 탐색기"
+    "Block_Explorer_Title": "블록 탐색기",
+    "Hero_Message" : "우리는 Antelope 프로토콜을 기반으로 하는 블록체인 생태계와 기술에 기여하고 있습니다.",
+    "EmptyBlockExplorerMessage" : "블록체인을 선택하여 주십시오.",
+    "BlockExplorerMainSearchPlaceholder" : "계정이나 블록 또는 트랜잭션을 검색할 수 있습니다...",
+    "SearchButton":"검색",
+    "Login": "로그인",
+    "Logout": "로그아웃",
+    "About": "홈페이지",
+    "Block Explorer": "블록 탐색기",
+    "Community": "커뮤니티",
+    "EOSVerse": "이오스버스"
 }
