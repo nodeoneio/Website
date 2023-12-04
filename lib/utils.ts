@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Chains, SessionKit } from '@wharfkit/session';
+import { chainIdsToIndices, Chains, SessionKit } from '@wharfkit/session';
 import { WalletPluginAnchor } from '@wharfkit/wallet-plugin-anchor';
 import WebRenderer from '@wharfkit/web-renderer';
 
@@ -32,7 +32,7 @@ export function getSessionKit(): SessionKit | undefined {
     }
 }
 
-export function EmojiFlag({ code }: { code: string }) {
+export function emojiFlag(code: string) {
     const [hSurrogate, lSurrogate] = [55356, 56806];
     return String.fromCharCode(
         hSurrogate,
@@ -40,4 +40,18 @@ export function EmojiFlag({ code }: { code: string }) {
         hSurrogate,
         lSurrogate + (code.charCodeAt(1) - 65)
     );
+}
+
+export function getChainIdsFromNames(names: string[]) {
+    const names_capital = names.map((name) => name.toUpperCase());
+
+    const chainId = Array.from(chainIdsToIndices, ([value, label]) => ({
+        value: value.toString(),
+        label: label.toString(),
+    })).filter((chain) => {
+        if (names_capital.includes(chain.label.toUpperCase())) return true;
+        return false;
+    });
+
+    return chainId;
 }

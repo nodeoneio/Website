@@ -16,7 +16,7 @@ export const topNavLinks = [
     },
     {
         imgURL: '/assets/icons/blockchain.svg',
-        route: '/blockexplorer',
+        route: '/blockexplorer/eos',
         label: 'Block Explorer',
         badge: 'SOON',
     },

@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import { CheckIcon, ChevronsUpDown } from 'lucide-react';
-
-import { cn } from '@/lib/utils';
+import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import { cn, getChainIdsFromNames as getChainIdsFromNames } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
     Command,
@@ -17,27 +18,26 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { chainIdsToIndices } from '@wharfkit/session';
+import ChainInfoContext from '@/context/blockexplorer-ctx';
 
-const supported_chains = ['EOS', 'JUNGLE4', 'FIO', 'PROTON', 'LIBRE'];
+const supportedChains = getChainIdsFromNames([
+    'EOS',
+    'JUNGLE4',
+    'FIO',
+    'PROTON',
+    'LIBRE',
+]);
 
-const chains = Array.from(chainIdsToIndices, ([value, label]) => ({
-    value: value.toString(),
-    label: label.toString(),
-})).filter((chain) => {
-    if (supported_chains.includes(chain.label.toUpperCase())) return true;
-    return false;
-});
-
-const SelectChain = ({
-    setSelectedChain,
-    setCurrentPage,
-}: {
-    setSelectedChain: (id: string) => void;
-    setCurrentPage: (page: number) => void;
-}) => {
+const SelectChain = ({ selectedChain }: { selectedChain: string }) => {
+    const ctx = useContext(ChainInfoContext);
     const [open, setOpen] = React.useState(false);
-    const [id, setId] = React.useState('');
+    const currentChainId = getChainIdsFromNames([selectedChain])[0].value;
+    const [id, setId] = React.useState(currentChainId);
+    const router = useRouter();
+
+    const chainSelectHandler = (route: string) => {
+        router.push('/blockexplorer/'.concat(route.toLowerCase()));
+    };
 
     return (
         <Popover
@@ -52,7 +52,8 @@ const SelectChain = ({
                     className="w-[250px] max-md:w-full justify-between bg-white text-black"
                 >
                     {id
-                        ? chains.find((chain) => chain.value === id)?.label
+                        ? supportedChains.find((chain) => chain.value === id)
+                              ?.label
                         : 'Select Chain...'}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -62,23 +63,21 @@ const SelectChain = ({
                     <CommandInput placeholder="Search Chain..." />
                     <CommandEmpty>No Chain found.</CommandEmpty>
                     <CommandGroup>
-                        {chains.map((chain) => (
+                        {supportedChains.map((chain) => (
                             <CommandItem
                                 className="cursor-pointer hover:bg-slate-400"
                                 key={chain.value}
                                 value={chain.label}
                                 onSelect={(currentValue) => {
-                                    const val = chains.find(
+                                    const val = supportedChains.find(
                                         (chain) =>
                                             chain.label.toLowerCase() ===
                                             currentValue.toLowerCase()
                                     )?.value;
                                     setId(val ? (val === id ? '' : val) : '');
-                                    setSelectedChain(
-                                        val ? (val === id ? '' : val) : ''
-                                    );
-                                    setCurrentPage(1);
-                                    setOpen(false);
+                                    // setOpen(false);
+                                    ctx.onSetCurrentChain(chain.label);
+                                    chainSelectHandler(chain.label);
                                 }}
                             >
                                 <span>{chain.label}</span>

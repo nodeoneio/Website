@@ -1,7 +1,7 @@
 'use client';
 import { user, logout } from '@/public/assets/icons';
 import Image from 'next/image';
-import AuthContext from '@/context/auth-context';
+import AuthContext from '@/context/auth-ctx';
 import { useContext } from 'react';
 
 const MobileMenu = ({

@@ -1,6 +1,6 @@
 'use client';
 import { useContext } from 'react';
-import AuthContext from '@/context/auth-context';
+import AuthContext from '@/context/auth-ctx';
 import { Button } from '../ui/button';
 import { useTranslation } from 'react-i18next';
 

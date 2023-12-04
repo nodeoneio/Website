@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../globals.css';
-import { AuthContextProvider } from '../../context/auth-context';
+import { AuthContextProvider } from '../../context/auth-ctx';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Bottombar from '@/components/BottomBar';
+import { ChainInfoContextProvider } from '@/context/blockexplorer-ctx';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
 }) {
     return (
         <AuthContextProvider>
+            <ChainInfoContextProvider>
             <html lang="en">
                 <body className={`bg-secondary-500 ${inter.className}`}>
                     <Header />
@@ -29,6 +31,7 @@ export default function RootLayout({
                     <Bottombar />
                 </body>
             </html>
+            </ChainInfoContextProvider>
         </AuthContextProvider>
     );
 }

@@ -7,13 +7,12 @@ import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuLabel,
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { EmojiFlag } from '@/lib/utils';
+import { emojiFlag } from '@/lib/utils';
 
 export function LanguageSelector() {
     const [currentLanguage, setCurrentLanguage] = React.useState('GB');
@@ -41,8 +40,8 @@ export function LanguageSelector() {
                     variant="outline"
                     className="text-white"
                 >
-                    <EmojiFlag code={currentLanguage} />{' '}
-                    {language[currentLanguage]}
+                    {/* <emojiFlag code={currentLanguage} />{' '} */}
+                    {emojiFlag(currentLanguage)} {language[currentLanguage]}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40 text-white bg-secondary-500">
@@ -56,19 +55,22 @@ export function LanguageSelector() {
                         value="GB"
                         className="hover:bg-slate-600"
                     >
-                        <EmojiFlag code="GB" /> {language.GB}
+                        {/* <emojiFlag code="GB" /> {language.GB} */}
+                        {emojiFlag("GB")} {language.GB}
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem
                         value="KR"
                         className="hover:bg-slate-600"
                     >
-                        <EmojiFlag code="KR" /> {language.KR}
+                        {/* <emojiFlag code="KR" /> {language.KR} */}
+                        {emojiFlag("KR")} {language.KR}
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem
                         value="JP"
                         className="hover:bg-slate-600"
                     >
-                        <EmojiFlag code="JP" /> {language.JP}
+                        {/* <emojiFlag code="JP" /> {language.JP} */}
+                        {emojiFlag("JP")} {language.JP}
                     </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
