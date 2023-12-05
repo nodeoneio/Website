@@ -49,7 +49,7 @@ const BlockExplorerLayout = ({
     }
     useEffect(() => {
         ctx.onSetCurrentChain(params.chainName);
-        
+
         // if(ctx.currentChainInfo) {
         //     console.log('id:',ctx.currentChainInfo.id)
         //     setChainId(ctx.currentChainInfo.id)
@@ -57,11 +57,13 @@ const BlockExplorerLayout = ({
     }, []);
 
     const searchHandler = () => {
-        if(searchTerm){
+        if (searchTerm) {
             const _searchBy = findOutSearchBy(searchTerm);
-            router.push(`/blockexplorer/${params.chainName}/${_searchBy}/${searchTerm}`);
+            router.push(
+                `/blockexplorer/${params.chainName}/${_searchBy}/${searchTerm}`
+            );
         }
-        
+
         // router.push({
         //   pathname: `/${_searchBy}/[searchTerm]`,
         //   query: { searchTerm: _searchTerm },
@@ -74,7 +76,7 @@ const BlockExplorerLayout = ({
                 <h1 className="text-heading1-bold font-montserrat text-white sm:text-4.5xl">
                     {t('Block_Explorer_Title')}
                     <span className="text-body-medium font-palanquin ml-5">
-                        v1.0 (alpha)
+                        Dev Alpha v0.1
                     </span>
                 </h1>
                 <div className="flex flex-row gap-2 items-center">
@@ -105,7 +107,10 @@ const BlockExplorerLayout = ({
                             : 'pointer-events-none opacity-70'
                     }`}
                 >
-                    <form action={searchHandler} className="flex w-full gap-2">
+                    <form
+                        action={searchHandler}
+                        className="flex w-full gap-2"
+                    >
                         <Input
                             type="search"
                             placeholder={t(

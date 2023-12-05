@@ -7,6 +7,7 @@ import xprlogo from './xprnetwork-logo.png';
 import bg_hexa from './bg-hexa-tile.jpeg';
 import bg_devdocs from './bg-devdocs.jpeg';
 import img_govern from './governance-img.jpeg';
+import communuty_bg from './community-bg.jpg';
 
 export {
     nodeone_hero,
@@ -18,4 +19,5 @@ export {
     bg_hexa,
     bg_devdocs,
     img_govern,
+    communuty_bg,
 };
